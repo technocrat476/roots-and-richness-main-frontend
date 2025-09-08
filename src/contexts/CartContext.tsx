@@ -163,7 +163,7 @@ case 'UPDATE_QUANTITY': {
 }
 
 case 'REMOVE_ITEM': {
-  const { cartItemId } = action.payload;
+  const cartItemId = action.payload;
   const items = state.items.filter(i => i.cartItemId !== cartItemId);
 
   const effectiveCoupon = items.length === 0 ? null : state.appliedCoupon;
