@@ -27,9 +27,17 @@ const useSafeNavigate = () => {
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const { state: cartState } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
+
+const handleSearch = () => {
+  if (!searchQuery.trim()) return;
+  navigate(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+  setSearchQuery('');
+  setIsMenuOpen(false); // close mobile sheet if open
+};
 
   const navItems = [
     { href: '/', label: 'Home' },
@@ -108,15 +116,31 @@ const Header = () => {
                   </div>
                 </nav>
 
-                {/* Mobile Search */}
-                <div className="p-6 border-t border-neutral-light">
-                  <button className="flex items-center space-x-3 w-full p-4 hover:bg-neutral-light rounded-lg transition-colors">
-                    <Search size={20} className="text-neutral-dark" />
-                    <span className="text-neutral-dark font-medium">Search Products</span>
-                  </button>
-                </div>
-              </div>
-            </SheetContent>
+    {/* Mobile Search */}
+    <div className="p-6 border-t border-neutral-light lg:hidden">
+      <div className="relative w-full">
+           {/* Search icon on the left */}
+    <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+      <Search size={18} className="text-neutral-medium" />
+    </div>
+        <input
+          type="text"
+          placeholder="Search products..."
+          className="w-full pl-10 pr-12 py-2 border border-neutral-light rounded-lg text-sm focus:outline-none 		focus:ring-2 focus:ring-primary placeholder:text-neutral-medium"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+        />
+        <button
+          onClick={handleSearch}
+          className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1 text-neutral-dark hover:text-primary"
+          aria-label="Search"
+        >
+        </button>
+      </div>
+    </div>
+  </div>
+</SheetContent>
           </Sheet>
 
           {/* Logo - Mobile Optimized */}
@@ -144,9 +168,21 @@ const Header = () => {
           {/* Right Section - Mobile Optimized */}
           <div className="flex items-center space-x-2 sm:space-x-4">
             {/* Search Icon (Desktop only) */}
-            <button className="hidden md:flex p-2 hover:bg-neutral-light rounded-lg transition-colors">
-              <Search size={18} className="text-neutral-dark" />
-            </button>
+  <input
+    type="text"
+    placeholder="Search products..."
+    className="border border-neutral-light rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+  />
+  <button
+    onClick={handleSearch}
+    className="p-2 hover:bg-neutral-light rounded-lg transition-colors"
+    aria-label="Search"
+  >
+    <Search size={18} className="text-neutral-dark" />
+  </button>
 
             {/* Cart - Touch Friendly */}
             <Link
