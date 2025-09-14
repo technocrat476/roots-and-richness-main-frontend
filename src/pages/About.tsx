@@ -25,7 +25,7 @@ const About = () => {
         "foundingDate": "2018",
         "founder": {
           "@type": "Person",
-          "name": "Rajesh Kumar"
+          "name": "Kumar"
         },
         "mission": "To bring pure, traditional wellness products from Indian farms and tribal communities to modern homes",
         "numberOfEmployees": "25-50",
@@ -110,7 +110,7 @@ const About = () => {
             
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600&h=600&fit=crop"
+                src="https://iili.io/Ku5Qiuf.png?w=600&h=600&fit=crop"
                 alt="Traditional Indian farming - Roots and Richness partners with local farmers for authentic wood-pressed oils"
                 className="w-full h-96 object-cover rounded-2xl shadow-xl"
               />
@@ -255,6 +255,22 @@ const About = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
+                name: "Subbaiah",
+                location: "Tuni, Andhra Pradesh", 
+                specialty: "Sesame Oil Production",
+                image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
+                story: "Third-generation sesame farmer who has perfected the art of traditional wood-pressing. His family has been producing pure sesame oil for over 60 years.",
+                icon: <MapPin className="text-primary" size={16} />
+              },
+              {
+                name: "Krishna Murthy",
+                location: "Nanduru, Andhra Pradesh",
+                specialty: "Groundnut Cultivation",
+                image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
+                story: "Pioneer in organic groundnut farming, their wood-pressed oils retain the rich, nutty flavor that makes our groundnut oil extraordinary.",
+                icon: <MapPin className="text-primary" size={16} />
+              },
+              {
                 name: "Kamla Devi",
                 location: "Araku Valley, Andhra Pradesh",
                 specialty: "Arabica Coffee Cultivation",
@@ -262,32 +278,10 @@ const About = () => {
                 story: "A tribal farmer leading her community in sustainable coffee cultivation at 3,000+ feet elevation. Her coffee represents generations of indigenous farming wisdom.",
                 icon: <MapPin className="text-primary" size={16} />
               },
-              {
-                name: "Raman Singh",
-                location: "Sikar, Rajasthan", 
-                specialty: "Mustard Oil Production",
-                image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
-                story: "Third-generation mustard farmer who has perfected the art of traditional wood-pressing. His family has been producing pure mustard oil for over 60 years.",
-                icon: <Clock className="text-primary" size={16} />
-              },
-              {
-                name: "Meera Patel",
-                location: "Saurashtra, Gujarat",
-                specialty: "Groundnut Cultivation",
-                image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
-                story: "Pioneer in organic groundnut farming, her cold-pressed oils retain the rich, nutty flavor that makes our groundnut oil extraordinary.",
-                icon: <Leaf className="text-primary" size={16} />
-              }
             ].map((farmer, index) => (
               <Card key={index} className="hover:shadow-lg transition-shadow duration-300 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <CardContent className="p-6">
-                  <div className="w-24 h-24 bg-neutral-light rounded-full mx-auto mb-4 overflow-hidden">
-                    <img
-                      src={farmer.image}
-                      alt={`${farmer.name} - ${farmer.specialty} partner at Roots and Richness`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+
                   <h3 className="text-lg font-playfair font-semibold text-secondary mb-1 text-center">
                     {farmer.name}
                   </h3>
@@ -326,30 +320,25 @@ const About = () => {
             <div className="space-y-8">
               {[
                 {
-                  year: "2018",
+                  year: "Dec 24",
                   title: "The Beginning",
                   description: "Started with a simple mission: bring authentic, unprocessed oils from Indian farms to urban kitchens."
                 },
                 {
-                  year: "2019", 
+                  year: "Jan 25", 
                   title: "First Partnerships",
-                  description: "Formed direct relationships with 50+ farming families across Rajasthan and Gujarat."
+                  description: "Formed direct relationships with 50+ farming families across Andhra Pradesh and Karnataka."
                 },
                 {
-                  year: "2021",
+                  year: "Mar 25",
                   title: "Tribal Connections",
                   description: "Expanded to partner with tribal communities in Araku Valley, introducing authentic Arabica coffee."
                 },
                 {
-                  year: "2023",
+                  year: "Sep 25",
                   title: "Digital Growth",
                   description: "Launched online platform, reaching 10,000+ customers nationwide while maintaining quality standards."
                 },
-                {
-                  year: "2024",
-                  title: "Sustainability Focus",
-                  description: "Initiated regenerative farming programs, supporting 500+ families in sustainable agriculture practices."
-                }
               ].map((milestone, index) => (
                 <div key={index} className="flex items-start space-x-6 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                   <div className="flex-shrink-0 w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center font-bold text-sm">
@@ -382,39 +371,41 @@ const About = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-4xl mx-auto">
             {[
               {
-                name: "Rajesh Kumar",
-                role: "Founder & CEO",
+                name: "Jashwanth Kumar",
+                role: "Head of Operations",
                 image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
-                description: "20+ years in sustainable agriculture and a vision to connect traditional Indian wellness with modern lifestyles.",
-                expertise: "Sustainable Agriculture"
+                description: "Experienced in building scalable systems and a vision to connect traditional Indian wellness                    with modern lifestyles.",
+                expertise: "Technology and Operations"
               },
               {
-                name: "Priya Sharma", 
+                name: "Sanyasi Rao", 
                 role: "Head of Quality & Sourcing",
                 image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
-                description: "Expert in traditional processing methods and guardian of our quality standards across all product lines.",
+                description: "Expert in traditional processing methods and guardian of our quality standards across                    all product lines.",
                 expertise: "Quality Assurance"
               },
               {
-                name: "Arjun Patel",
-                role: "Community Relations Director",
+                name: "Mani Kumari",
+                role: "Head of Inventory",
+                image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
+                description: "Guardian of seamless stock movement, ensuring every product is cared for, tracked with precision, and delivered on time without compromise.",
+                expertise: "Inventory Management"
+              },
+              {
+                name: "Priyanka",
+                role: "Head of Digital Marketing",
                 image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
                 description: "Building meaningful partnerships with farming communities and ensuring fair trade practices across India.",
-                expertise: "Community Partnerships"
+                expertise: "Digital Strategy & Branding"
               }
+
             ].map((member, index) => (
               <Card key={index} className="text-center hover:shadow-lg transition-shadow duration-300 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <CardContent className="p-6">
-                  <div className="w-24 h-24 bg-neutral-light rounded-full mx-auto mb-4 overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={`${member.name} - ${member.role} at Roots and Richness`}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
+
                   <h3 className="text-lg font-playfair font-semibold text-secondary mb-1">
                     {member.name}
                   </h3>

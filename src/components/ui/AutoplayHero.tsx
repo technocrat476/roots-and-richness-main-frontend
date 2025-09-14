@@ -12,27 +12,21 @@ const AutoplayHero: React.FC<AutoplayHeroProps> = ({ interval = 1000 }) => {
 
   const slides = [
     {
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=1920&h=1080&fit=crop&crop=center",
-      headline: "Purity from the Source",
-      subtext: "Farm-sourced, untouched, and natural",
-      alt: "Traditional mustard field in India"
-    },
-    {
-      image: "https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?w=1920&h=1080&fit=crop&crop=center",
-      headline: "Wood-Pressed. No Compromise.",
-      subtext: "Retaining nutrition, flavor, and texture",
+      image: "https://iili.io/KuVoVxS.png?w=1920&h=1080&fit=crop&crop=center",
+      headline: "",
+      subtext: "",
       alt: "Cold-pressed mustard oil production"
     },
     {
-      image: "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1920&h=1080&fit=crop&crop=center",
-      headline: "From Araku with Love",
-      subtext: "Sustainably grown Arabica coffee",
-      alt: "Araku tribal women harvesting coffee"
+      image: "https://iili.io/Kuarscu.png?w=1920&h=1080&fit=crop&crop=center",
+      headline: "Natural. Unrefined. Real.",
+      subtext: "",
+      alt: "Traditional Groundnut field in India"
     },
     {
-      image: "https://images.unsplash.com/photo-1465146344425-f00d5f5c8f07?w=1920&h=1080&fit=crop&crop=center",
-      headline: "Natural. Unrefined. Real.",
-      subtext: "Pure goodness in every drop",
+      image: "https://iili.io/KuW1GwP.png?w=1920&h=1080&fit=crop&crop=center",
+      headline: "",
+      subtext: "",
       alt: "Pouring pure groundnut oil in bottle"
     }
   ];

@@ -167,8 +167,8 @@ console.log("Related products =>", related);
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "48"
+      "ratingValue": product.rating || "4.8",
+      "reviewCount": product.numReviews || "50"
     },
     "additionalProperty": [
       {
@@ -259,7 +259,7 @@ console.log("Related products =>", related);
             <>
               {/* Mobile - Swiper thumbnails */}
               <div className="block lg:hidden">
-                <Swiper spaceBetween={8} slidesPerView={4}>
+                <Swiper spaceBetween={-300} slidesPerView={4}>
                   {product.images.map((image, index) => (
                     <SwiperSlide key={index}>
                       <img

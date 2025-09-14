@@ -47,8 +47,8 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "50",
+      "ratingValue": product.rating || "4.8",
+      "reviewCount":product.numReviews || "50",
       "bestRating": "5",
       "worstRating": "1"
     },
