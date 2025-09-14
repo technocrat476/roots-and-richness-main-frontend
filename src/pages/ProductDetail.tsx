@@ -237,7 +237,7 @@ console.log("Related products =>", related);
       const alt = typeof image === "string" ? `${product.name} - image ${index + 1}` : (image.alt || `${product.name} - image ${index + 1}`);
       return (
         <SwiperSlide key={index}>
-          <img src={src} alt={alt} className="w-full h-full object-cover" />
+          <img src={src} alt={alt} className="w-full h-full object-contain" />
         </SwiperSlide>
       );
     })}
