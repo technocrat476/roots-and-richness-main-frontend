@@ -237,7 +237,7 @@ console.log("Related products =>", related);
       const alt = typeof image === "string" ? `${product.name} - image ${index + 1}` : (image.alt || `${product.name} - image ${index + 1}`);
       return (
         <SwiperSlide key={index}>
-          <img src={src} alt={alt} className="w-full h-full object-cover" />
+          <img src={src} alt={alt} className="w-full h-full object-contain" />
         </SwiperSlide>
       );
     })}
@@ -259,7 +259,7 @@ console.log("Related products =>", related);
             <>
               {/* Mobile - Swiper thumbnails */}
               <div className="block lg:hidden">
-                <Swiper spaceBetween={8} slidesPerView={4}>
+                <Swiper spaceBetween={-300} slidesPerView={4}>
                   {product.images.map((image, index) => (
                     <SwiperSlide key={index}>
                       <img
