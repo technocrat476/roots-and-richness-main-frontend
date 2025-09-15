@@ -125,7 +125,7 @@ const Checkout = () => {
 
   const handlePayment = async () => {
     if (!validateForm()) return;
-    
+    window.scrollTo({ top: 0, behavior: 'smooth' });
     if (paymentProvider === 'upi') {
       setShowUPIPayment(true);
       return;
