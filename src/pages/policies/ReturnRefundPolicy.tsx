@@ -153,8 +153,8 @@ const ReturnRefundPolicy = () => {
                 Contact our customer care team to initiate your return:
               </p>
               <div className="space-y-1 text-sm">
-                <p><strong>Email:</strong> returns@rootsandrichness.com</p>
-                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Email:</strong> rootsnrichness@gmail.com</p>
+                <p><strong>Phone:</strong> +91 9900606404</p>
                 <p><strong>Subject:</strong> Return Request - Order #[Your Order Number]</p>
               </div>
             </div>

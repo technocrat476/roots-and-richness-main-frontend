@@ -207,8 +207,8 @@ const TermsAndConditions = () => {
                 For clarification on any terms or legal questions, contact us:
               </p>
               <div className="space-y-1 text-sm">
-                <p><strong>Email:</strong> legal@rootsandrichness.com</p>
-                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Email:</strong>rootsnrichness@gmail.com</p>
+                <p><strong>Phone:</strong> +91 9900606404</p>
                 <p><strong>Business Hours:</strong> Monday to Friday, 9 AM - 6 PM IST</p>
               </div>
             </div>

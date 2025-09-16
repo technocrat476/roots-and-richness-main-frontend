@@ -132,8 +132,8 @@ const ShippingPolicy = () => {
                 For any shipping-related queries, please contact us:
               </p>
               <div className="space-y-1 text-sm">
-                <p><strong>Email:</strong> hello@rootsandrichness.com</p>
-                <p><strong>Phone:</strong> +91 98765 43210</p>
+                <p><strong>Email:</strong> rootsnrichness@gmail.com</p>
+                <p><strong>Phone:</strong> +91 9900606404</p>
                 <p><strong>Hours:</strong> Monday to Friday, 9 AM - 6 PM</p>
               </div>
             </div>

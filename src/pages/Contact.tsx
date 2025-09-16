@@ -242,7 +242,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                   icon: <Mail className="text-primary" size={24} />,
                   title: "Email Us",
                   details: [
-                    "hello@rootsandrichness.in",
+                    "rootsnrichness@gmail.com",
                     "support@rootsandrichness.in",
                     "We reply within 24 hours"
                   ]

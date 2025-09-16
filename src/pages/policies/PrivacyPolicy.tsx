@@ -236,9 +236,9 @@ const PrivacyPolicy = () => {
                 Contact our privacy team for any concerns or requests:
               </p>
               <div className="space-y-1 text-sm">
-                <p><strong>Email:</strong> privacy@rootsandrichness.com</p>
-                <p><strong>Phone:</strong> +91 98765 43210</p>
-                <p><strong>Address:</strong> Mumbai, Maharashtra, India</p>
+                <p><strong>Email:</strong> rootsnrichness@gmail.com</p>
+                <p><strong>Phone:</strong> +91 9900606404</p>
+                <p><strong>Address:</strong> Ballari, Karnataka, India</p>
               </div>
             </div>
           </div>

@@ -472,7 +472,7 @@ const Products = () => {
                 <div className="prose prose-lg max-w-none text-neutral-medium">
                   <p>
                     Every product at Roots & Richness comes directly from small-scale farmers and tribal
-                    communities across India. From mustard farms in Rajasthan to groundnut fields in Gujarat,
+                    communities across India. From groundnut fields in Andhra Pradesh to coconut farms in Kerala,
                     and coffee plantations in Araku Valley, we build lasting partnerships that ensure fair
                     prices and sustainable livelihoods.
                   </p>
