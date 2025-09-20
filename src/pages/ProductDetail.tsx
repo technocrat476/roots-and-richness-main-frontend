@@ -222,8 +222,7 @@ console.log("Related products =>", related);
       {/* Main Image Carousel */}
       <div className="relative aspect-square bg-neutral-light rounded-lg overflow-hidden">
   <Swiper
-    modules={[Navigation, Pagination]}
-    navigation
+    modules={[Pagination]}
     pagination={{ clickable: true }}
     spaceBetween={10}
     slidesPerView={1}

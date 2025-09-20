@@ -58,11 +58,10 @@ const HeroCarousel: React.FC = () => {
   return (
     <section className="w-full relative">
       <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
+        modules={[Autoplay, Pagination]}
         loop={true}
         autoplay={{ delay: 5000, disableOnInteraction: false }}
         pagination={{ clickable: true }}
-        navigation
         className="w-full"
       >
         {slides.map((slide, index) => (
