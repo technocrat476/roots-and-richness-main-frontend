@@ -110,8 +110,11 @@ const About = () => {
             
             <div className="relative">
               <img
-                src="https://iili.io/KYJ1YaR.webp?w=600&h=600&fit=crop"
+                src="https://ik.imagekit.io/rrcdn/About%20us/About-us.webp?w=600&h=600&fit=crop"
                 alt="Traditional Indian farming - Roots and Richness partners with local farmers for authentic wood-pressed oils"
+               loading="lazy"
+               width="600"
+               height="600"
                 className="w-full h-96 object-cover rounded-2xl shadow-xl"
               />
               <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-xl shadow-lg">
