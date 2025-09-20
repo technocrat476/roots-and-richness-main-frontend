@@ -35,7 +35,7 @@ const AVAILABLE_COUPONS: Coupon[] = [
     type: 'percent',
     value: 5,
     minOrderValue: 299,
-    expiryDate: '2025-12-31',
+    expiryDate: '2025-12-18',
     isActive: true,
     description: '10% OFF on orders above ₹299'
   },

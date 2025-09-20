@@ -13,6 +13,7 @@ interface Product {
 interface CartItem extends Product {
   quantity: number;
   size?: string; 
+  cartItemId: string;
 }
 
 interface CartState {
@@ -100,11 +101,11 @@ const getInitialCart = (): CartState => {
     if (!raw) return initialState;
     const parsed = JSON.parse(raw);
     const items: CartItem[] = Array.isArray(parsed?.items) ? parsed.items : [];
-    const appliedCoupon: CouponValidationResult | null = parsed?.appliedCoupon ?? null;
+    //const appliedCoupon: CouponValidationResult | null = parsed?.appliedCoupon ?? null;
     return {
+      ...initialState,
       items,
-      appliedCoupon,
-      ...calculateTotals(items, appliedCoupon),
+      ...calculateTotals(items, null),
     };
   } catch (e) {
     console.error('Error parsing cart from localStorage', e);
@@ -208,9 +209,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     // persist minimal pieces (items + coupon), derived values will be recalculated on load
-    const toPersist = { items: state.items, appliedCoupon: state.appliedCoupon };
+    const toPersist = { items: state.items };
     localStorage.setItem('cart', JSON.stringify(toPersist));
-  }, [state.items, state.appliedCoupon]);
+  }, [state.items]);
 
   return <CartContext.Provider value={{ state, dispatch }}>{children}</CartContext.Provider>;
 };

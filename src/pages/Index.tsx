@@ -5,6 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
 import AutoplayHero from '@/components/ui/AutoplayHero';
+import HeroBanner from '../components/ui/HeroBanner';
+import HeroCarousel from '../components/ui/HeroCarousel';
 import HomeSEO from '@/components/SEO/HomeSEO';
 import HealthBenefitsSection from '@/components/sections/HealthBenefitsSection';
 import StickyCheckoutButton from '@/components/ui/StickyCheckoutButton';
@@ -118,8 +120,11 @@ const Index = () => {
       {/* Mobile-First Meta Viewport */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+      {/* HeroCarousel */}
+      <HeroCarousel />
+
       {/* Autoplay Hero Section - Mobile Optimized */}
-      <AutoplayHero interval={4000} />
+      {/*<AutoplayHero interval={4000} /> */}
 
       {/* Main Content with Mobile-First Structure */}
       <main>
@@ -313,7 +318,7 @@ const Index = () => {
 
               <blockquote className="bg-white p-6 sm:p-8 rounded-lg shadow-lg">
                 <p className="text-base sm:text-lg text-neutral-dark italic mb-4 sm:mb-6 leading-relaxed">
-                  "Finally found authentic mustard oil that doesn't compromise on quality. The traditional wood-pressing method really makes a difference."
+                  "Finally found authentic white sesame oil that doesn't compromise on quality. The traditional wood-pressing method really makes a difference."
                 </p>
                 <footer className="text-secondary font-semibold">
                   — Rajesh S., Delhi

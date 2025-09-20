@@ -1,0 +1,40 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "https://rootsandrichness.in/$1",
+      "has": [{ "type": "host", "value": "www.rootsandrichness.in" }],
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/_next/(.*)",
+      "destination": "/_next/$1"
+    },
+    {
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/favicon.ico"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/robots.txt"
+    },
+    {
+      "source": "/manifest.json",
+      "destination": "/manifest.json"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

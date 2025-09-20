@@ -414,6 +414,27 @@ const downloadCSV = () => {
                   <SelectItem value="delivered">Delivered</SelectItem>
                 </SelectContent>
               </Select>
+  {/* Download Invoice */}
+<Button
+  variant="outline"
+  size="sm"
+  onClick={async () => {
+    try {
+      const blob = await apiClient.downloadInvoice(order._id);
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", `invoice_${order._id}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      console.error("❌ Error downloading invoice:", err);
+    }
+  }}
+>
+  <Download size={14} className="mr-1" /> Invoice
+</Button>
             </TableCell>
           </TableRow>
         ))}

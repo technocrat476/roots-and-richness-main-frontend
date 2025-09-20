@@ -281,6 +281,68 @@ getSingleBlog(slug: string) {
     if (!res.ok) throw new Error(`API Error: ${res.status}`);
     return res.json();
   }
+  // -----------------------------
+  // Admin - Orders (Invoice)
+  // -----------------------------
+async downloadInvoice(orderId: string) {
+  const url = `${this.baseURL}/orders/${orderId}/invoice`;
+  const token = localStorage.getItem('admin_token');
+
+  const res = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error(`Error ${res.status}`);
+
+  const blob = await res.blob(); // binary data
+  const a = document.createElement('a');
+  const fileUrl = window.URL.createObjectURL(blob);
+  a.href = fileUrl;
+  a.download = `invoice_${orderId}.pdf`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  window.URL.revokeObjectURL(fileUrl);
+}
+
+// -----------------------------
+// Admin / Orders - Invoice Calculation
+// -----------------------------
+async calculateInvoice(payload: {
+  items: {
+    name: string;
+    qty: number;
+    price: number;
+    gstPercent?: number;
+    sku?: string;
+    hsn?: string;
+  }[];
+  paymentMethod: 'cod' | 'prepaid';
+  discountAmount?: number;
+  codFee?: number;
+  shippingPrice?: number;
+}) {
+  const url = `${this.baseURL}/invoice`; // backend endpoint for invoice calculation
+  const token = localStorage.getItem('admin_token');
+
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!res.ok) {
+    throw new Error(`Invoice API Error: ${res.status} ${res.statusText}`);
+  }
+
+  return res.json(); // returns the calculated invoice object
+}
+
 }
 
 export const apiClient = new ApiClient(API_BASE_URL);

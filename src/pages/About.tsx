@@ -98,11 +98,11 @@ const About = () => {
                   <div className="text-sm text-neutral-medium">Farm Families</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">6</div>
+                  <div className="text-2xl font-bold text-primary">2</div>
                   <div className="text-sm text-neutral-medium">Years Experience</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">10,000+</div>
+                  <div className="text-2xl font-bold text-primary">1000+</div>
                   <div className="text-sm text-neutral-medium">Happy Customers</div>
                 </div>
               </div>
@@ -110,7 +110,7 @@ const About = () => {
             
             <div className="relative">
               <img
-                src="https://iili.io/Ku5Qiuf.png?w=600&h=600&fit=crop"
+                src="https://iili.io/KYJ1YaR.webp?w=600&h=600&fit=crop"
                 alt="Traditional Indian farming - Roots and Richness partners with local farmers for authentic wood-pressed oils"
                 className="w-full h-96 object-cover rounded-2xl shadow-xl"
               />

@@ -8,6 +8,7 @@ import { useCart } from '@/contexts/CartContext';
 import StickyCheckoutButton from '@/components/ui/StickyCheckoutButton';
 import CouponInput from '@/components/ui/CouponInput';
 import { CouponValidationResult } from '@/services/coupons';
+import confetti from 'canvas-confetti';
 //import { validateCoupon } from '@/services/coupons';
 
 const Cart = () => {
@@ -22,6 +23,16 @@ const Cart = () => {
   };
 
   const handleCouponApplied = (result: CouponValidationResult) => {
+      if (result?.success) {
+    // Trigger confetti!
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#f43f5e', '#f59e0b', '#10b981', '#3b82f6'], // your brand colors
+    });
+    confetti({ particleCount: 50, spread: 120, origin: { y: 0.6 } });
+  }
     dispatch({ type: 'APPLY_COUPON', payload: result });
   };
 

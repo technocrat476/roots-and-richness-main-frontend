@@ -47,8 +47,8 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "50",
+      "ratingValue": product.rating || "4.8",
+      "reviewCount": product.numReviews || "50",
       "bestRating": "5",
       "worstRating": "1"
     },
@@ -108,7 +108,7 @@ const ProductSEO = ({ product }: ProductSEOProps) => {
     if (product.category === 'oils') {
       return baseKeywords + ', cold-pressed oil, organic oil, traditional oil, pure oil, chemical-free oil, healthy cooking oil';
     } else if (product.category === 'coffee') {
-      return baseKeywords + ', arabica coffee, tribal coffee, single origin coffee, organic coffee, premium coffee';
+      return baseKeywords + ', arabica coffee, tribal coffee, single origin coffee, organic coffee, premium coffee, araku coffee, araku valley coffee';
     }
     return baseKeywords + ', natural wellness, organic products, traditional products';
   };

@@ -15,6 +15,8 @@ import { useToast } from '@/hooks/use-toast';
 import { CouponValidationResult } from '@/services/coupons';
 import { Loader2 } from "lucide-react";
 import apiClient from '@/services/api';
+import confetti from 'canvas-confetti';
+
 const Checkout = () => {
   const { state, dispatch } = useCart();
   useEffect(() => {
@@ -79,6 +81,16 @@ const Checkout = () => {
   };
 
   const handleCouponApplied = (result: CouponValidationResult) => {
+      if (result?.success) {
+    // Trigger confetti!
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#f43f5e', '#f59e0b', '#10b981', '#3b82f6'], // your brand colors
+    });
+    confetti({ particleCount: 50, spread: 120, origin: { y: 0.6 } });
+  }
     dispatch({ type: 'APPLY_COUPON', payload: result });
   };
 

@@ -142,14 +142,14 @@ const Footer = () => {
             <h4 className="text-lg font-playfair font-semibold">Contact Info</h4>
             <div className="space-y-3">
               <a 
-                href="mailto:hello@rootsandrichness.com"
+                href="mailto:rootsnrichness@gmail.com"
                 className="flex items-center space-x-3 hover:text-primary transition-colors"
               >
                 <Mail size={16} className="text-primary flex-shrink-0" />
-                <span className="text-gray-300 text-sm">hello@rootsandrichness.com</span>
+                <span className="text-gray-300 text-sm">rootsnrichness@gmail.com</span>
               </a>
               <a 
-                href="tel:+919876543210"
+                href="tel:+919900606404"
                 className="flex items-center space-x-3 hover:text-primary transition-colors"
               >
                 <Phone size={16} className="text-primary flex-shrink-0" />
