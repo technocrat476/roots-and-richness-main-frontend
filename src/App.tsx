@@ -8,6 +8,8 @@ import { CartProvider } from "./contexts/CartContext";
 import ErrorBoundary from "./components/ui/ErrorBoundary";
 import { Suspense, lazy } from "react";
 import Loading from "./components/ui/Loading";
+import { SpeedInsights } from "@vercel/speed-insights/react"
+import { Analytics } from "@vercel/analytics/react"
 
 // Lazy load components for better performance
 const AdminRoute = lazy(() => import("./components/admin/AdminRoute"));
@@ -110,6 +112,8 @@ const App = () => (
         </AdminProvider>
       </TooltipProvider>
     </QueryClientProvider>
+    <SpeedInsights />
+    <Analytics/>
   </ErrorBoundary>
 );
 
