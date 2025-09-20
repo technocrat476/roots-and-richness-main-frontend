@@ -98,7 +98,7 @@ const About = () => {
                   <div className="text-sm text-neutral-medium">Farm Families</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">2</div>
+                  <div className="text-2xl font-bold text-primary">2+</div>
                   <div className="text-sm text-neutral-medium">Years Experience</div>
                 </div>
                 <div className="text-center">
