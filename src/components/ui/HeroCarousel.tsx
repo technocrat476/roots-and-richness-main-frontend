@@ -29,7 +29,7 @@ const HeroCarousel: React.FC = () => {
       heroImageMobile: "https://ik.imagekit.io/rrcdn/Homepage/1.webp",
       heroImageAlt: "Roots and Richness - Premium Oils",
       productImageSrc: "",
-      productImageAlt: "Wood-pressed Groundnut Oil",
+      productImageAlt: "An Indian Farmer holding a Roots and Richness Wood-pressed Groundnut Oil",
     },
     {
       title: "Purity from the Source",
@@ -38,7 +38,7 @@ const HeroCarousel: React.FC = () => {
       ctaLink: "/about",
       heroImageDesktop: "https://ik.imagekit.io/rrcdn/Homepage/Desktop-2.webp",
       heroImageMobile: "https://ik.imagekit.io/rrcdn/Homepage/Mobile-2.webp",
-      heroImageAlt: "Roots and Richness - Wood-pressed Oils",
+      heroImageAlt: "An Indian Farmer having native groundnuts and Wood-pressed Groundnut oil by Roots and Richness",
       productImageSrc: "",
       productImageAlt: "Roots and Richness - Wood-pressed Oils",
     },
@@ -49,7 +49,7 @@ const HeroCarousel: React.FC = () => {
       ctaLink: "/products",
       heroImageDesktop: "https://ik.imagekit.io/rrcdn/Homepage/Desktop-3.webp",
       heroImageMobile: "https://ik.imagekit.io/rrcdn/Homepage/Mobile-3.webp",
-      heroImageAlt: "Roots and Richness - Wellness",
+      heroImageAlt: "Roots and Richness Sesame oil placed on the table of Modern day kitchen along with a healthy salad",
       productImageSrc: "",
       productImageAlt: "Wellness Bundle",
     },
@@ -76,6 +76,7 @@ const HeroCarousel: React.FC = () => {
     src={slide.heroImageMobile}
     alt={slide.heroImageAlt}
     className="w-full h-full object-cover object-center"
+    loading="eager"
     />
    </picture>
               {/* Gradient overlay for premium look */}
