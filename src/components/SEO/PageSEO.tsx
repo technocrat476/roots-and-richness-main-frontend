@@ -20,7 +20,7 @@ const PageSEO = ({
   description, 
   keywords, 
   canonicalUrl, 
-  ogImage = "https://rootsandrichness.in/logo.png",
+  ogImage = "https://rootsandrichness.in/assets/logo.png",
   ogType = "website",
   structuredData,
   author,

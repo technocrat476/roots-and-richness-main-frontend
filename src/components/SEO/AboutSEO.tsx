@@ -38,7 +38,7 @@ const AboutSEO = () => {
       description="Discover our journey of bringing pure, wood-pressed oils and natural wellness products from Indian farms and tribal communities to modern homes. Learn about our commitment to traditional processing methods and sustainable agriculture."
       keywords="about roots and richness, wood-pressed oils company, traditional oil processing, indian farms, tribal communities, natural wellness products, sustainable agriculture, organic oils india"
       canonicalUrl="https://rootsandrichness.in/about"
-      ogImage="https://rootsandrichness.in/og-about.jpg"
+      ogImage="https://rootsandrichness.in/assets/og-about.jpg"
       structuredData={aboutStructuredData}
       author="Roots and Richness Team"
     />

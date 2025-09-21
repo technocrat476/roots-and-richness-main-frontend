@@ -27,7 +27,7 @@ const FAQSEO = () => {
         "name": "Do you offer free shipping?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, we offer free shipping on orders above ₹499 across India. For orders below ₹499, a nominal shipping charge of ₹50 applies."
+          "text": "Yes, we offer free shipping on orders above ₹499 across India. For orders below ₹499, a nominal shipping charge of ₹99 applies."
         }
       },
       {
