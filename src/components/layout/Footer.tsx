@@ -52,6 +52,9 @@ const Footer = () => {
           <Link to="/terms-and-conditions" className="block text-gray-300 hover:text-primary transition-colors text-sm py-1">
             Terms of Service
           </Link>
+          <Link to="/track-my-order" className="block text-gray-300 hover:text-primary transition-colors text-sm py-1">
+            Track My Order
+         </Link>
         </div>
       )
     }
@@ -133,6 +136,9 @@ const Footer = () => {
               </Link>
               <Link to="/terms-and-conditions" className="block text-gray-300 hover:text-primary transition-colors text-sm">
                 Terms of Service
+              </Link>
+              <Link to="/track-my-order" className="block text-gray-300 hover:text-primary transition-colors text-sm">
+                Track My Order
               </Link>
             </div>
           </div>
