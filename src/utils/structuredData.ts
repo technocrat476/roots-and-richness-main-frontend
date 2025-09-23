@@ -63,8 +63,8 @@ export const generateProductData = (product: any) => ({
   ...(product.rating && {
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "50"
+      "ratingValue": product.rating || "4.8",
+      "reviewCount": product.numReviews || "50"
     }
   })
 });
@@ -82,7 +82,7 @@ export const aboutPageData = {
     "foundingDate": "2018",
     "founder": {
       "@type": "Person",
-      "name": "Rajesh Kumar"
+      "name": "Jashwanth Kumar"
     },
     "mission": "To bring pure, traditional wellness products from Indian farms and tribal communities to modern homes"
   }
@@ -95,20 +95,20 @@ export const contactPageData = {
   "name": "Contact Roots and Richness",
   "url": "https://rootsandrichness.in/contact",
   "mainEntity": {
-    "@type": "LocalBusiness",
+    "@type": "Organization",
     "name": "Roots and Richness",
+    "url": "https://rootsandrichness.in/",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "123 Green Valley Road",
-      "addressLocality": "Mumbai",
-      "addressRegion": "Maharashtra",
-      "postalCode": "400001",
+      "streetAddress": "Indira Nagar",
+      "addressLocality": "Ballari",
+      "addressRegion": "Karnataka",
+      "postalCode": "583104",
       "addressCountry": "IN"
     },
-    "telephone": "+91-98765-43210",
-    "email": "hello@rootsandrichness.com",
-    "url": "https://rootsandrichness.in/contact",
-    "openingHours": "Mo-Sa 09:00-18:00"
+    "telephone": "+91-9900606404",
+    "email": "rootsnrichness@gmail.com",
+    "openingHours": ["Mo-Sa 09:00-18:00"],
   }
 };
 

@@ -221,6 +221,17 @@ console.log("Related products =>", related);
     <>
       {/* Main Image Carousel */}
       <div className="relative aspect-square bg-neutral-light rounded-lg overflow-hidden">
+  {/* Badges */}
+  {product.originalPrice && (
+    <Badge className="absolute top-4 left-4 bg-accent text-white z-10">
+      Save ₹{selectedVariant.originalPrice - selectedVariant.price}
+    </Badge>
+  )}
+  {product?.isFeatured && (
+    <Badge className="absolute top-4 right-4 bg-primary text-white z-10">
+      Bestseller
+    </Badge>
+  )}
   <Swiper
     modules={[Pagination]}
     pagination={{ clickable: true }}
@@ -241,16 +252,6 @@ console.log("Related products =>", related);
       );
     })}
   </Swiper>
-        {product.originalPrice && (
-          <Badge className="absolute top-4 left-4 bg-accent text-white">
-            Save ₹{selectedVariant.originalPrice - selectedVariant.price}
-          </Badge>
-        )}
-        {product?.isFeatured && (
-          <Badge className="absolute top-3 right-3 bg-primary text-white">
-            Bestseller
-          </Badge>
-        )}
       </div>
 
           {/* Thumbnails */}
@@ -465,6 +466,51 @@ console.log("Related products =>", related);
                 <p className="text-destructive text-sm">This product is currently out of stock.</p>
               )}
             </div>
+{selectedVariant?.price > 499 && (
+  <div className="mt-4 p-4 border rounded-2xl shadow-sm bg-gray-50">
+    <h4 className="text-lg font-semibold text-green-700 mb-2 font-inter">
+      🎉 You Get This At
+    </h4>
+
+    {(() => {
+      const discountPercent = 5; // 🔥 hardcode your discount %
+      const finalPrice = Math.ceil(
+        selectedVariant.price - (selectedVariant.price * discountPercent) / 100
+      );
+
+      return (
+        <>
+          <div className="flex items-center gap-3">
+            {/* ✅ Final discounted price */}
+            <span className="text-2xl font-bold text-gray-900">₹{finalPrice}</span>
+
+            {/* ✅ Show original price */}
+            <span className="text-gray-500 line-through">
+              ₹{selectedVariant.price}
+            </span>
+
+            {/* ✅ Show discount percentage */}
+            <span className="text-sm font-medium text-green-600">
+              {discountPercent}% OFF
+            </span>
+          </div>
+
+          {/* ✅ Coupon line */}
+          <p className="text-sm text-orange-600 font-medium mt-1">
+            💳 Use coupon <span className="font-bold">FIRST5</span> for extra {discountPercent}% off
+          </p>
+
+          {/* ✅ Shipping / GST line */}
+          <p className="text-sm text-gray-600 mt-1">
+            ✅ Inclusive of GST 
+          </p>
+        </>
+      );
+    })()}
+  </div>
+)}
+
+
 
             {/* Enhanced Trust Badges */}
             <div className="grid grid-cols-3 gap-4 py-6 bg-neutral-light rounded-lg px-4">
@@ -472,7 +518,7 @@ console.log("Related products =>", related);
                 <Truck className="text-primary mx-auto" size={24} />
                 <div className="text-xs">
                   <div className="font-medium">Free Shipping</div>
-                  <div className="text-neutral-medium">Orders over ₹500</div>
+                  <div className="text-neutral-medium">Orders over ₹499</div>
                 </div>
               </div>
               <div className="text-center space-y-2">
