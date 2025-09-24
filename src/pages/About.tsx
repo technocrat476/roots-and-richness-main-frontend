@@ -10,49 +10,42 @@ const About = () => {
     { label: 'Home', href: '/' },
     { label: 'About Us' }
   ];
-
   // Enhanced structured data for About page
   const aboutPageStructuredData = [
     {
       "@context": "https://schema.org",
       "@type": "AboutPage",
-      "name": "About Roots and Richness - Our Story of Traditional Wellness",
-      "description": "Learn about Roots and Richness - India's trusted source for wood-pressed oils and natural wellness products, sourced directly from tribal communities and small farms",
+      "name": "About Roots and Richness - Our Story of  Wood-Pressed Oils & Traditional Wellness",
+      "description": "Discover Roots and Richness, India's trusted source for premium wood-pressed oils, cold- pressed oils, tribal-sourced coffee, and organic natural wellness products. Learn our story of bringing traditional purity to modern homes.",
       "url": "https://rootsandrichness.in/about",
       "mainEntity": {
         "@type": "Organization",
         "name": "Roots and Richness",
+        "url": "https://rootsandrichness.in/",
+        "logo": "https://rootsandrichness.in/logo.png",
         "foundingDate": "2018",
         "founder": {
           "@type": "Person",
-          "name": "Kumar"
+          "name": "Jashwanth Kumar"
         },
-        "mission": "To bring pure, traditional wellness products from Indian farms and tribal communities to modern homes",
+        "mission": "To deliver pure wood-pressed oils, organic cold-pressed sesame, coconut, mustard, and groundnut oils, along with tribal coffee and natural wellness products across India.",
         "numberOfEmployees": "25-50",
         "address": {
           "@type": "PostalAddress",
-          "streetAddress": "123 Green Valley Road",
-          "addressLocality": "Mumbai",
-          "addressRegion": "Maharashtra",
-          "postalCode": "400001",
+          "streetAddress": "Indira Nagar",
+          "addressLocality": "Ballari",
+          "addressRegion": "Karnataka",
+          "postalCode": "583104",
           "addressCountry": "IN"
-        }
-      }
+
     },
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Roots and Richness",
-      "url": "https://rootsandrichness.in",
-      "logo": "https://rootsandrichness.in/logo.png",
-      "description": "Premium natural wellness products including wood-pressed oils, tribal-sourced coffee, and traditional wellness items sourced directly from Indian farms and tribal communities.",
-      "foundingDate": "2018",
       "sameAs": [
         "https://www.instagram.com/rootsandrichness",
         "https://www.facebook.com/rootsandrichness"
       ]
     }
-  ];
+  }
+];
 
   return (
     <div className="min-h-screen bg-white">

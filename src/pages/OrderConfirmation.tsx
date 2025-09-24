@@ -28,6 +28,7 @@ if (orderData) {
     // Clear cart after successful order
     // This would typically be handled by the cart context
     console.log('Order confirmed, clearing cart');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   if (!orderData) {

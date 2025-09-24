@@ -78,18 +78,18 @@ const handleSubmit = async (e: React.FormEvent) => {
     },
     {
       "@context": "https://schema.org",
-      "@type": "LocalBusiness",
+      "@type": "Organization",
       "name": "Roots and Richness",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "123 Green Valley Road",
-        "addressLocality": "Mumbai",
-        "addressRegion": "Maharashtra",
-        "postalCode": "400001",
+        "streetAddress": "Indira Nagar",
+        "addressLocality": "Ballari",
+        "addressRegion": "Karnataka",
+        "postalCode": "583104",
         "addressCountry": "IN"
       },
-      "telephone": "+91-98765-43210",
-      "email": "hello@rootsandrichness.com",
+      "telephone": "+91-9900606404",
+      "email": "rootsnrichness@gmail.com",
       "url": "https://rootsandrichness.in/contact",
       "openingHours": [
         "Mo-Fr 09:00-18:00",
@@ -104,7 +104,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     <div className="min-h-screen bg-white">
       <PageSEO 
         title="Contact Roots and Richness - Get in Touch | Premium Natural Products"
-        description="Contact Roots and Richness for premium wood-pressed oils and natural wellness products. Call +91-98765-43210 or visit us in Mumbai. We're here to help with your natural wellness journey."
+        description="Contact Roots and Richness for premium wood-pressed oils and natural wellness products. Call +91-9900606404. We're here to help with your natural wellness journey."
         keywords="contact roots and richness, wood-pressed oils contact, natural products support, customer service, mumbai location, premium oils contact"
         canonicalUrl="https://rootsandrichness.in/contact"
         structuredData={contactPageStructuredData}
