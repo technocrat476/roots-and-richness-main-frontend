@@ -395,47 +395,51 @@ const downloadCSV = () => {
             <TableCell>
               {new Date(order.createdAt).toLocaleDateString()}
             </TableCell>
+{/* Actions */}
+<TableCell>
+  <div className="flex flex-col md:flex-row md:items-center md:space-x-3 space-y-2 md:space-y-0">
+    {/* Status Dropdown */}
+    <Select
+      value={order.status}
+      onValueChange={(value: Order['status']) =>
+        updateOrderStatus(order._id, value)
+      }
+    >
+      <SelectTrigger className="w-32">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="pending">Pending</SelectItem>
+        <SelectItem value="processing">Processing</SelectItem>
+        <SelectItem value="shipped">Shipped</SelectItem>
+        <SelectItem value="delivered">Delivered</SelectItem>
+      </SelectContent>
+    </Select>
 
-            {/* Actions */}
-            <TableCell>
-              <Select
-                value={order.status}
-                onValueChange={(value: Order['status']) =>
-                  updateOrderStatus(order._id, value)
-                }
-              >
-                <SelectTrigger className="w-28">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="pending">Pending</SelectItem>
-                  <SelectItem value="processing">Processing</SelectItem>
-                  <SelectItem value="shipped">Shipped</SelectItem>
-                  <SelectItem value="delivered">Delivered</SelectItem>
-                </SelectContent>
-              </Select>
-  {/* Download Invoice */}
-<Button
-  variant="outline"
-  size="sm"
-  onClick={async () => {
-    try {
-      const blob = await apiClient.downloadInvoice(order._id);
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", `invoice_${order._id}.pdf`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (err) {
-      console.error("❌ Error downloading invoice:", err);
-    }
-  }}
->
-  <Download size={14} className="mr-1" /> Invoice
-</Button>
-            </TableCell>
+    {/* Download Invoice Button */}
+    <Button
+      variant="outline"
+      size="sm"
+      className="flex items-center justify-center"
+      onClick={async () => {
+        try {
+          const blob = await apiClient.downloadInvoice(order._id);
+          const url = window.URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", `invoice_${order._id}.pdf`);
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+        } catch (err) {
+          console.error("❌ Error downloading invoice:", err);
+        }
+      }}
+    >
+      <Download size={14} className="mr-1" /> Invoice
+    </Button>
+  </div>
+</TableCell>
           </TableRow>
         ))}
       </TableBody>
