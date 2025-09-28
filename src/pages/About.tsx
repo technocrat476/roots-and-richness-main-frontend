@@ -394,8 +394,8 @@ const About = () => {
                 name: "Priyanka",
                 role: "Head of Digital Marketing",
                 image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?w=400&h=400&fit=crop",
-                description: "Building meaningful partnerships with farming communities and ensuring fair trade practices across India.",
-                expertise: "Digital Strategy & Branding"
+                description: "Champion of customer connection, leveraging insights, platforms to create meaningful digital experiences.",
+                expertise: "Digital Strategy"
               }
 
             ].map((member, index) => (

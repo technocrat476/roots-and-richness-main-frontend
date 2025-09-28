@@ -230,6 +230,7 @@ useEffect(() => {
     };
 
     fetchBlogs();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // Merge backend + static posts

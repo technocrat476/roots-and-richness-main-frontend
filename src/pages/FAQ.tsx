@@ -1,5 +1,5 @@
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
@@ -9,7 +9,9 @@ import PageSEO from '@/components/SEO/PageSEO';
 const FAQ = () => {
   const [openItems, setOpenItems] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const faqData = [
     {
       question: "What makes wood-pressed oils different from regular oils?",

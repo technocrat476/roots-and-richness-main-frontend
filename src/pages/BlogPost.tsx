@@ -83,6 +83,7 @@ useEffect(() => {
     }
   }
   fetchPost();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }, [slug]);
 
 useEffect(() => {

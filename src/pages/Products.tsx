@@ -47,6 +47,7 @@ const Products = () => {
 
   useEffect(() => {
     fetchProducts();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
   // --- Filter & Sort ---

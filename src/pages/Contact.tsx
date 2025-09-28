@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,6 +20,9 @@ const Contact = () => {
   
   const { toast } = useToast?.() || { toast: (opts: any) => alert(opts.title || opts.description) };
   const [sending, setSending] = useState(false);
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
@@ -290,8 +294,8 @@ const handleSubmit = async (e: React.FormEvent) => {
                 <p className="text-sm text-neutral-medium mb-4">
                   Looking for quick answers? Check out our FAQ section.
                 </p>
-                <Button variant="outline" size="sm">
-                  View FAQ
+                <Button asChild variant="outline" size="sm">
+                  <Link to="/faq">View FAQ</Link>
                 </Button>
               </CardContent>
             </Card>
