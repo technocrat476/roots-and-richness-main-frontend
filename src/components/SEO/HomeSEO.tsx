@@ -10,7 +10,7 @@ const HomeSEO = () => {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Roots and Richness | Pure Wood-Pressed Oils, Handpicked from Indian Farms",
-      "description": "Wood-pressed, chemical-free oils and natural wellness products directly from Indian farms. Buy authentic wood-pressed sesame oil, groundnut oil, and tribal coffee online.",
+      "description": "Wood-pressed, chemical-free oils and natural wellness products directly from Indian farms. Buy authentic wood-pressed sesame oil, groundnut oil, coconut oil, castor oil and tribal coffee online.",
       "url": "https://rootsandrichness.in/",
       "mainEntity": {
         "@type": "ItemList",
@@ -59,8 +59,8 @@ const HomeSEO = () => {
 
   return (
     <PageSEO
-      title="Pure Wood-Pressed Oils, Handpicked from Indian Farms | Roots and Richness"
-      description="Cold-pressed, chemical-free oils and natural wellness products directly from Indian farms. Buy authentic wood-pressed sesame oil, groundnut oil, coconut oil and tribal coffee online. Free shipping on orders over ₹499."
+      title="Roots and Richness | Pure Wood-Pressed Oils, Handpicked from Indian Farms"
+      description="Cold-pressed, chemical-free oils and natural wellness products directly from Indian farms. Buy authentic wood-pressed sesame oil, groundnut oil, coconut oil, castor oil and tribal coffee online. Free shipping on orders over ₹499."
       keywords="buy cold-pressed oils online India, wood-pressed oils, sesame oil, pure oils online, coconut oil, mustard oil, organic groundnut oil, tribal coffee online, natural wellness products, chemical-free oils"
       canonicalUrl="https://rootsandrichness.in/"
       ogImage="https://rootsandrichness.in/assets/og-homepage.png"
