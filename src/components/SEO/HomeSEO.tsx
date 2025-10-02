@@ -9,7 +9,7 @@ const HomeSEO = () => {
     {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Pure Wood-Pressed Oils, Handpicked from Indian Farms | Roots and Richness",
+      "name": "Roots and Richness | Pure Wood-Pressed Oils, Handpicked from Indian Farms",
       "description": "Wood-pressed, chemical-free oils and natural wellness products directly from Indian farms. Buy authentic wood-pressed sesame oil, groundnut oil, and tribal coffee online.",
       "url": "https://rootsandrichness.in/",
       "mainEntity": {
