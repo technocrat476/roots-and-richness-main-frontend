@@ -167,8 +167,8 @@ console.log("Related products =>", related);
     },
     "aggregateRating": {
       "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "48"
+      "ratingValue": "product.rating",
+      "reviewCount": "product.numReviews"
     },
     "additionalProperty": [
       {
@@ -509,8 +509,6 @@ console.log("Related products =>", related);
     })()}
   </div>
 )}
-
-
 
             {/* Enhanced Trust Badges */}
             <div className="grid grid-cols-3 gap-4 py-6 bg-neutral-light rounded-lg px-4">

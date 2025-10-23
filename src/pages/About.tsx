@@ -1,10 +1,14 @@
 
 import { Users, Leaf, Heart, Award, MapPin, Clock, Handshake } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { useEffect } from 'react';
 import PageSEO from '@/components/SEO/PageSEO';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
 
 const About = () => {
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
   // Breadcrumb items
   const breadcrumbItems = [
     { label: 'Home', href: '/' },

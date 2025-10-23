@@ -10,6 +10,7 @@ import HeroCarousel from '../components/ui/HeroCarousel';
 import HomeSEO from '@/components/SEO/HomeSEO';
 import HealthBenefitsSection from '@/components/sections/HealthBenefitsSection';
 import StickyCheckoutButton from '@/components/ui/StickyCheckoutButton';
+import PromoBanner from "@/components/ui/PromoBanner";
 import apiClient from '@/services/api';
 import { useToast } from "@/hooks/use-toast";
 
@@ -162,6 +163,9 @@ const Index = () => {
             </Link>
           </div>
         </section>
+
+        {/* Promo Banner */}
+        {/* <PromoBanner />/}
 
         {/* Featured Products Grid - Mobile First */}
         <section id="featured-products" className="py-8 sm:py-12 lg:py-20 bg-neutral-light">
