@@ -20,6 +20,7 @@ interface Product {
   howToUse: string;
   pReview: string;
   reviewBy: string;
+  sourceDescription: string;
   ingredients: string;
   lowStockThreshold: number;
   isActive: boolean;
@@ -40,6 +41,7 @@ const initialFormData = {
   howToUse: [],
   pReview: [],
   reviewBy: [],
+  sourceDescription: '',
   ingredients: [],
   lowStockThreshold: '',
   isActive: "true",
@@ -110,6 +112,7 @@ const ProductManager: React.FC = () => {
         howToUse: p.howToUse ?? '',
         pReview: p.pReview ?? '',
         reviewBy: p.reviewBy ?? '',
+        sourceDescription: p.sourceDescription ?? '',
         ingredients: p.ingredients ?? '',
         lowStockThreshold: (p.lowStockThreshold ? Number(p.lowStockThreshold) : 10),
         isActive: p.isActive ?? true,
@@ -161,6 +164,7 @@ const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
       howToUse: product.howToUse,
       pReview: product.pReview,
       reviewBy: product.reviewBy,
+      sourceDescription: product.sourceDescription,
       ingredients: product.ingredients,
       lowStockThreshold: String(product.lowStockThreshold ?? 10),
       isActive: product.isActive ? 'true' : 'false',
@@ -277,6 +281,7 @@ const reviewBy =
       howToUse,
       pReview,
       reviewBy,
+      sourceDescription: formData.sourceDescription,
       ingredients: formData.ingredients,
       isActive: formData.isActive,
       originalPrice: Number(formData.originalPrice || 0),
@@ -672,6 +677,14 @@ const handleVariantStockChange = async (
                     id="reviewBy"
                     value={formData.reviewBy}
                     onChange={(e) => setFormData({...formData, reviewBy: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="sourceDescription">Source Description</Label>
+                  <Input
+                    id="sourceDescription"
+                    value={formData.sourceDescription}
+                    onChange={(e) => setFormData({...formData, sourceDescription: e.target.value})}
                   />
                 </div>
                 <div>

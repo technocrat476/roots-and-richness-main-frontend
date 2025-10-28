@@ -46,10 +46,10 @@ const HealthBenefitsSection = () => {
           <h2 className="text-3xl lg:text-4xl font-playfair font-bold text-secondary">
             Health Benefits of Wood-Pressed Oils
           </h2>
-          <p className="text-lg text-neutral-medium max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg text-medium max-w-3xl mx-auto leading-relaxed">
             Naturally extracted using traditional wooden presses, our oils retain essential nutrients, flavor, and aroma—making them a healthier choice for your daily meals.
           </p>
-          <p className="text-base text-neutral-medium max-w-4xl mx-auto">
+          <p className="text-base text-medium max-w-4xl mx-auto">
             Wood-pressed oils, also known as cold-pressed or kachi ghani oils, are extracted at low temperatures without any chemicals or refining. This method preserves vital nutrients and antioxidants that offer real health benefits.
           </p>
         </div>

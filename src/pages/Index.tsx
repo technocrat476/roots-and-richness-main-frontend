@@ -1,6 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { ArrowRight, ShoppingCart, Star, Truck, Shield, Phone, Brain, Heart, Flame, Droplet, User, Sparkles } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Star, Truck, Shield, Phone, Brain, Heart, Flame, Droplet, User, Sparkles, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { useCart } from '@/contexts/CartContext';
@@ -167,101 +167,133 @@ const Index = () => {
         {/* Promo Banner */}
         {/* <PromoBanner />/}
 
-        {/* Featured Products Grid - Mobile First */}
-        <section id="featured-products" className="py-8 sm:py-12 lg:py-20 bg-neutral-light">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-16">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold text-secondary">
-                Our Featured Products
-              </h2>
-              <p className="text-base sm:text-lg text-neutral-medium max-w-xl sm:max-w-2xl mx-auto px-4">
-                Handpicked premium products that bring the best of nature's goodness to your doorstep
-              </p>
+{/* Featured Products Grid - Mobile First */}
+<section id="featured-products" className="py-8 sm:py-12 lg:py-20 bg-neutral-light">
+  <div className="container mx-auto px-4 sm:px-6">
+    <div className="text-center space-y-3 sm:space-y-4 mb-8 sm:mb-16">
+      <h2 className="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold text-secondary">
+        Our Featured Products
+      </h2>
+      <p className="text-base sm:text-lg text-neutral-medium max-w-xl sm:max-w-2xl mx-auto px-4">
+        Handpicked premium products that bring the best of nature's goodness to your doorstep
+      </p>
+    </div>
+
+    {/* Mobile-First Product Grid */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+      {featuredProducts.map((product, index) => (
+        <Card
+          key={product._id}
+          className="group hover:shadow-xl transition-all duration-300 animate-fade-in cursor-pointer"
+          style={{ animationDelay: `${index * 0.1}s` }}
+        >
+          <div className="relative overflow-hidden rounded-t-lg">
+            <picture>
+              <source
+                media="(max-width: 640px)"
+                srcSet={`${product.images[0]}?w=320&h=240`}
+              />
+              <img
+                src={product.images?.[0]?.url}
+                alt={`${product.name} - Pure wood-pressed oil from Roots and Richness, sourced directly from Indian farms`}
+                className="w-full h-48 sm:h-56 lg:h-64 object-contain group-hover:scale-105 transition-transform duration-300"
+                loading={index < 3 ? "eager" : "lazy"}
+                width="320"
+                height="240"
+              />
+            </picture>
+           {/* ✨ Premium Diagonal Best Price Ribbon */}
+           <div className="absolute top-4 right-[-35px] rotate-45 bg-amber-700 text-white text-[11px] sm:text-xs             font-medium px-10 py-1 shadow-md tracking-wide">
+            Best Price
             </div>
+            {product.originalPrice && (
+              <div className="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-lg text-xs sm:text-sm font-medium">
+                Save ₹{product.originalPrice - product.price}
+              </div>
+            )}
+          </div>
 
-            {/* Mobile-First Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
-              {featuredProducts.map((product, index) => (
-  <Link
-    key={product._id}
-    to={`/products/${product.slug}`}
-    style={{ animationDelay: `${index * 0.1}s` }}
-    className="block" // ensures link takes full card size
-  >
-                <Card key={product._id} className="group hover:shadow-xl transition-all duration-300 animate-fade-in cursor-pointer" >
-                  <div className="relative overflow-hidden rounded-t-lg">
-                    <picture>
-                      <source 
-                        media="(max-width: 640px)" 
-                        srcSet={`${product.images[0]}?w=320&h=240`} 
-                      />
-                      <img
-                        src={product.images?.[0]?.url}
-                        alt={`${product.name} - Pure wood-pressed oil from Roots and Richness, sourced directly from Indian farms`}
-                        className="w-full h-48 sm:h-56 lg:h-64 object-contain group-hover:scale-105 transition-transform duration-300"
-                        loading={index < 3 ? 'eager' : 'lazy'}
-                        width="320"
-                        height="240"
-                      />
-                    </picture>
-                    {product.originalPrice && (
-                      <div className="absolute top-3 left-3 bg-accent text-white px-2 py-1 rounded-lg text-xs sm:text-sm font-medium">
-                        Save ₹{product.originalPrice - product.price}
-                      </div>
-                    )}
-                  </div>
-                  <CardContent className="p-4 sm:p-6">
-                    <div className="space-y-3 sm:space-y-4">
-                      <div>
-                        <h3 className="text-base sm:text-lg font-playfair font-semibold text-secondary group-hover:text-primary transition-colors line-clamp-2">
-                          {product.name}
-                        </h3>
-                        <p className="text-sm text-neutral-medium mt-1 line-clamp-2">
-                          {product.shortDescription}
-                        </p>
-                      </div>
+          <CardContent className="p-4 sm:p-6">
+            <div className="space-y-3 sm:space-y-4">
+              <div>
+                <h3 className="text-base sm:text-lg font-playfair font-semibold text-secondary group-hover:text-primary transition-colors line-clamp-2">
+                  {product.name}
+                </h3>
 
-                      <div className="flex items-center justify-between">
-                        <div className="space-x-2">
-                          <span className="text-lg sm:text-xl font-bold text-secondary">
-                            ₹{product.price}
-                          </span>
-                          {product.originalPrice && (
-                            <span className="text-sm text-neutral-medium line-through">
-                              ₹{product.originalPrice}
-                            </span>
-                          )}
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Star className="text-primary fill-current" size={14} />
-                          <span className="text-sm text-neutral-medium">4.8</span>
-                        </div>
-                      </div>
+                {/* ✨ Short Source Description */}
+                <p className="text-xs sm:text-sm text-amber-800 italic mt-1">
+                  {product.sourceDescription ||
+                    (product.name.includes("Sesame")
+                      ? "Sourced from lush fields of Andhra Pradesh"
+                      : product.name.includes("Groundnut")
+                      ? "Cold-pressed from the finest peanuts of Tamil Nadu"
+                      : product.name.includes("Coconut")
+                      ? "Crafted from fresh coconuts of Kerala coast"
+                      : "Sourced from trusted Indian farms")}
+                </p>
 
-                      {/* Mobile-Friendly Button Layout */}
-                      <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
-                        <Link to={`/products/${product.slug}`} className="flex-1">
-                          <Button variant="outline" className="w-full min-h-[44px] text-sm">
-                            View Details
-                          </Button>
-                        </Link>
-                        <Button 
-                          onClick={() => handleAddToCart(product)}
-                          disabled={!product.isActive}
-                          className="btn-primary min-h-[44px] sm:w-auto w-full"
-                          aria-label={`Add ${product.name} to cart`}
-                        >
-                          <ShoppingCart size={16} className="mr-2 sm:mr-0" />
-                          <span className="sm:hidden">Add to Cart</span>
-                        </Button>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-               </Link>
-              ))}
+                <p className="text-sm text-neutral-medium mt-2 line-clamp-2">
+                  {product.shortDescription}
+                </p>
+              </div>
+
+             <div className="flex flex-col gap-1">
+              <div className="flex items-center justify-between">
+                <div className="space-x-2">
+                  <span className="text-lg sm:text-xl font-bold text-secondary">
+                    ₹{product.price}
+                  </span>
+                  {product.originalPrice && (
+                    <span className="text-sm text-neutral-medium line-through">
+                      ₹{product.originalPrice}
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center space-x-1">
+                  <Star className="text-primary fill-current" size={14} />
+                  <span className="text-sm text-neutral-medium">{product.rating}</span>
+                </div>
+              </div>
+  {/* Elegant Offer Label */}
+  <p className="text-[13px] text-gray-700 italic tracking-tight leading-snug">
+    Get this at{" "}
+    <span className="text-amber-800 font-medium not-italic">
+      ₹{Math.ceil(product.price * 0.95)}
+    </span>{" "}
+    <span className="text-green-700 font-medium not-italic">with coupon</span>
+  </p>
+</div>
+
+
+              {/* ✨ Buttons: Buy Now + Add to Cart */}
+              <div className="mt-4 flex gap-3">
+               <Button
+                 onClick={() => {
+                 if (!product.isActive) return;
+                 handleAddToCart(product);
+                 navigate("/checkout"); }}
+                 disabled={!product.isActive}
+               className="buy-now-shimmer flex-1 bg-amber-800 text-white shadow-sm                hover:shadow-md transition-all duration-300 min-h-[44px]"
+               >
+              <Zap className="w-4 h-4 text-white-400" />
+              Buy Now
+              </Button>
+                <Button
+                  onClick={() => handleAddToCart(product)}
+                  disabled={!product.isActive}
+                  variant="outline"
+                  className="flex-1 border-amber-700 text-amber-700 hover:bg-amber-700 hover:text-white w-full sm:w-auto min-h-[44px]"
+                  aria-label={`Add ${product.name} to cart`}
+                >
+                  <ShoppingCart size={16} className="mr-2" />
+                  Add to Cart
+                </Button>
+              </div>
             </div>
-
+          </CardContent>
+        </Card>
+      ))}
+    </div>
             <div className="text-center mt-8 sm:mt-12">
               <Link to="/products">
                 <Button size="lg" className="btn-primary min-h-[48px] px-6 sm:px-8">
@@ -283,7 +315,7 @@ const Index = () => {
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold text-secondary">
                 Purity, Tradition, and Transparency
               </h2>
-              <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-neutral-medium leading-relaxed">
+              <div className="space-y-4 sm:space-y-6 text-base sm:text-lg text-medium leading-relaxed">
                 <p>
                   At Roots and Richness, we bring you pure, chemical-free wellness — sourced directly from Indian farms and tribal communities. Our products are made with traditional wood-pressed methods to preserve nutrition and authenticity.
                 </p>

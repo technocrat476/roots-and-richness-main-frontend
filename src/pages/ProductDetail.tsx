@@ -581,7 +581,7 @@ console.log("Related products =>", related);
                 {product.benefits.map((benefit, index) => (
                   <div key={index} className="flex items-start space-x-3 p-4 bg-neutral-light rounded-lg">
                     <div className="w-3 h-3 bg-primary rounded-full mt-2 flex-shrink-0"></div>
-                    <span className="text-neutral-medium">{benefit}</span>
+                    <span className="text-medium">{benefit}</span>
                   </div>
                 ))}
               </div>

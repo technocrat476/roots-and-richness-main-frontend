@@ -27,6 +27,7 @@ const Checkout = () => {
       Cod: state.codCharges,
       total: state.finalTotal,
     });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, [state]); // runs every time state changes
   const buildOrderItems = () =>
   state.items.map(item => ({
