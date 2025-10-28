@@ -182,6 +182,12 @@ const Index = () => {
     {/* Mobile-First Product Grid */}
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
       {featuredProducts.map((product, index) => (
+               <Link
+                key={product._id}
+                to={`/products/${product.slug}`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+                className="block" // ensures link takes full card size
+               >
         <Card
           key={product._id}
           className="group hover:shadow-xl transition-all duration-300 animate-fade-in cursor-pointer"
@@ -268,18 +274,19 @@ const Index = () => {
               {/* ✨ Buttons: Buy Now + Add to Cart */}
               <div className="mt-4 flex gap-3">
                <Button
-                 onClick={() => {
+                 onClick={(e) => {
+                 e.preventDefault();
                  if (!product.isActive) return;
                  handleAddToCart(product);
                  navigate("/checkout"); }}
                  disabled={!product.isActive}
-               className="buy-now-shimmer flex-1 bg-amber-800 text-white shadow-sm                hover:shadow-md transition-all duration-300 min-h-[44px]"
+               className="buy-now-shimmer flex-1 bg-amber-800 text-white shadow-sm hover:shadow-md transition-all duration-300 min-h-[44px]"
                >
               <Zap className="w-4 h-4 text-white-400" />
               Buy Now
               </Button>
                 <Button
-                  onClick={() => handleAddToCart(product)}
+                  onClick={(e) => { e.preventDefault();; handleAddToCart(product);}}
                   disabled={!product.isActive}
                   variant="outline"
                   className="flex-1 border-amber-700 text-amber-700 hover:bg-amber-700 hover:text-white w-full sm:w-auto min-h-[44px]"
@@ -292,6 +299,7 @@ const Index = () => {
             </div>
           </CardContent>
         </Card>
+        </Link>
       ))}
     </div>
             <div className="text-center mt-8 sm:mt-12">

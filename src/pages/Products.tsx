@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Star, Filter, Search, Grid, List } from 'lucide-react';
+import { ShoppingCart, Star, Filter, Search, Grid, List, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -9,6 +9,7 @@ import { categories } from '@/data/products';
 import { useCart } from '@/contexts/CartContext';
 import PageSEO from '@/components/SEO/PageSEO';
 import Breadcrumbs from '@/components/ui/Breadcrumbs';
+import StickyCheckoutButton from '@/components/ui/StickyCheckoutButton';
 import apiClient from '@/services/api';
 
 type ViewMode = 'grid' | 'list';
@@ -338,6 +339,7 @@ const Products = () => {
                         className="w-full h-85 object-contain group-hover:scale-105 transition-transform duration-300"
                         loading={index < 8 ? 'eager' : 'lazy'}
                       />
+
                       {originalPrice ? (
                         <Badge className="absolute top-3 left-3 bg-accent text-white">
                           Save ₹{(originalPrice ?? 0) - (product?.price ?? 0)}
@@ -361,6 +363,17 @@ const Products = () => {
                           <h3 className="font-playfair font-semibold text-secondary group-hover:text-primary transition-colors line-clamp-2 text-lg">
                             {product?.name}
                           </h3>
+          {/* ✨ Source Line */}
+          <p className="text-xs sm:text-sm text-amber-800 italic mt-1">
+            {product.sourceDescription ||
+              (product.name.includes("Sesame")
+                ? "Sourced from lush fields of Andhra Pradesh"
+                : product.name.includes("Groundnut")
+                ? "Cold-pressed from the finest peanuts of Tamil Nadu"
+                : product.name.includes("Coconut")
+                ? "Crafted from fresh coconuts of Kerala coast"
+                : "Sourced from trusted Indian farms")}
+          </p>
                           <p className="text-sm text-neutral-medium mt-1 line-clamp-2">
                             {short}
                           </p>
@@ -383,6 +396,16 @@ const Products = () => {
                           </div>
                         </div>
 
+          {/* Elegant Offer Label */}
+          <p className="text-[13px] text-gray-700 italic tracking-tight leading-snug">
+            Get this at{" "}
+            <span className="text-amber-800 font-medium not-italic">
+              ₹{Math.ceil(product.price * 0.95)}
+            </span>{" "}
+            <span className="text-green-700 font-medium not-italic">
+              with coupon
+            </span>
+          </p>
                         <div className="text-xs text-neutral-medium space-y-1">
                           <div>✓ Free shipping • ✓ 100% Natural • ✓ 7-day return</div>
                           <div className="text-primary font-medium">
@@ -390,25 +413,40 @@ const Products = () => {
                           </div>
                         </div>
 
-                        <div className="flex space-x-2">
-                          <Link to={`/products/${product?.slug}`} className="flex-1" o >
-                            <Button variant="outline" size="sm" className="w-full">
-                              View Details
-                            </Button>
-                          </Link>
-                          <Button
-                            onClick={() => handleAddToCart(product)}
-                            disabled={!product.isActive}
-                            size="sm"
-                            className="btn-primary"
-                          >
-                            <ShoppingCart size={14} />
-                          </Button>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                 </Link>
+        {/* --- Buttons --- */}
+        <div className="mt-4 flex gap-3">
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              if (!product.isActive) return;
+              handleAddToCart(product);
+              window.location.href = "/checkout";
+            }}
+            disabled={!product.isActive}
+            className="buy-now-shimmer flex-1 bg-amber-800 text-white shadow-sm hover:shadow-md transition-all duration-300 min-h-[44px]"
+          >
+          <Zap className="w-4 h-4 text-white-400" />
+            Buy Now
+          </Button>
+          <Button
+            onClick={(e) => {
+              e.preventDefault();
+              handleAddToCart(product);
+            }}
+            disabled={!product.isActive}
+            variant="outline"
+            className="flex-1 border-amber-700 text-amber-700 hover:bg-amber-700 hover:text-white min-h-[44px]"
+          >
+            <ShoppingCart size={16} className="mr-2" />
+            Add to Cart
+          </Button>
+	  
+
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+</Link>
                 );
               })}
             </div>
@@ -533,6 +571,8 @@ const Products = () => {
           </div>
         </section>
       </div>
+      {/* Sticky Checkout Button */}
+      <StickyCheckoutButton />
     </div>
   );
 };
