@@ -16,6 +16,7 @@ interface Product {
   imageUrl?: string;
   stock: number;
   category: string;
+  description: string;
   benefits: string;
   howToUse: string;
   pReview: string;
@@ -36,6 +37,7 @@ const initialFormData = {
   originalPrice: "",
   stock: "",
   category: "",
+  description: "",
   images: [],
   benefits: [],
   howToUse: [],
@@ -108,6 +110,7 @@ const ProductManager: React.FC = () => {
         images: Array.isArray(p.images) ? p.images : [],
         stock: p.stock ?? p.countInStock ?? 0,
         category: p.category ?? '',
+        description: p.description ?? '',
         benefits: p.benefits ?? '',
         howToUse: p.howToUse ?? '',
         pReview: p.pReview ?? '',
@@ -160,6 +163,7 @@ const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
       images: Array.isArray(product.images) ? product.images.map(img => img.url) : [],
       stock: String(product.stock),
       category: product.category,
+      description: product.description,
       benefits: product.benefits,
       howToUse: product.howToUse,
       pReview: product.pReview,
@@ -277,6 +281,7 @@ const reviewBy =
       //images: formData.imageUrl ? [{ url: formData.imageUrl, alt: '' }] : [],
       stock: Number(formData.stock || 0),
       category: formData.category || 'Uncategorized',
+      description: formData.description || "",
       benefits,
       howToUse,
       pReview,
@@ -644,6 +649,15 @@ const handleVariantStockChange = async (
                     id="slug"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Input
+                    id="description"
+                    value={formData.description}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    required
                   />
                 </div>
               </div>

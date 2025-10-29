@@ -544,7 +544,7 @@ console.log("Related products =>", related);
           {/* About This Product */}
           <div className="space-y-4">
             <h2 className="text-2xl font-playfair font-bold text-secondary">About This Product</h2>
-            <div className="prose prose-lg max-w-none text-neutral-medium">
+            <div className="prose prose-lg max-w-none text-medium">
               <p className="leading-relaxed">{product.description}</p>
               
               {/* Origin story based on product type */}
@@ -798,33 +798,109 @@ const setSize = (size: string) => {
 )}
 </div>
 
-        {/* FAQ Section for SEO */}
-        <div className="mt-16 space-y-6">
-          <Separator />
-          <h2 className="text-2xl font-playfair font-bold text-secondary">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            <details className="bg-neutral-light p-4 rounded-lg">
-              <summary className="font-medium cursor-pointer">Is this oil suitable for high-heat cooking?</summary>
-              <p className="mt-2 text-neutral-medium">
-                Yes, our wood-pressed oils retain their natural smoke point and are perfect for traditional Indian cooking methods including deep frying.
-              </p>
-            </details>
-            
-            <details className="bg-neutral-light p-4 rounded-lg">
-              <summary className="font-medium cursor-pointer">How is this different from refined oils?</summary>
-              <p className="mt-2 text-neutral-medium">
-                Unlike refined oils that use chemicals and high heat, our wood-pressed method preserves natural nutrients, flavor, and aroma while being completely chemical-free.
-              </p>
-            </details>
-            
-            <details className="bg-neutral-light p-4 rounded-lg">
-              <summary className="font-medium cursor-pointer">What is the shelf life?</summary>
-              <p className="mt-2 text-neutral-medium">
-                Our oils have a shelf life of 12 months when stored in a cool, dry place away from direct sunlight. Natural settling may occur, which is normal.
-              </p>
-            </details>
-          </div>
-        </div>
+{/* FAQ Section for SEO and Conversion */}
+<div className="mt-16 space-y-8">
+  <Separator />
+  <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-secondary">
+    Frequently Asked Questions
+  </h2>
+  <div className="space-y-5">
+    
+    {/* 1. Health Benefit */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        What makes wood-pressed oils healthier?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        Wood-pressed oils are extracted at low temperatures without chemicals or preservatives.
+        This method preserves essential nutrients, antioxidants, and natural flavor —
+        making it a pure, wholesome choice for everyday cooking and wellness.
+      </p>
+    </details>
+
+    {/* 2. Cooking Use */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        Can I use this oil for high-heat cooking or deep frying?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        Absolutely. Our oils retain their natural smoke point and are perfect for
+        traditional Indian dishes, including deep frying, sautéing, and tadka.
+        You get a rich aroma without losing nutrients.
+      </p>
+    </details>
+
+    {/* 3. Purity and Source */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        How do you ensure purity and quality?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        Every batch is wood-pressed in small quantities using carefully sourced, high-quality seeds or nuts.
+        We don’t use chemicals, heat, or solvents — just pure, slow extraction and natural sedimentation.
+        Our oils are lab-tested for purity before bottling.
+      </p>
+    </details>
+
+    {/* 4. Shelf Life */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        What is the shelf life of your oils?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        Our wood-pressed oils stay fresh for up to 12 months when stored in a cool, dry place.
+        Because they are 100% natural, some settling at the bottom is normal — it’s proof of authenticity.
+      </p>
+    </details>
+
+   {/* 5. Packaging & Freshness */}
+<details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+  <summary className="font-medium cursor-pointer text-secondary">
+    What kind of packaging do you use?
+  </summary>
+  <p className="mt-3 text-medium leading-relaxed">
+    We use high-quality, food-grade PET bottles that are 100% safe for edible oils and
+    specially chosen to preserve purity and freshness. These bottles are lightweight,
+    easy to handle, and completely recyclable — ensuring your oil stays fresh while being
+    kind to the planet.
+  </p>
+</details>
+    {/* 6. Sourcing */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        Where do you source your ingredients from?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        We work directly with trusted local farmers and small-scale producers who follow
+        ethical and sustainable practices. Every seed is handpicked and wood-pressed in
+        small batches to maintain traceability and authenticity.
+      </p>
+    </details>
+
+    {/* 7. Shipping and Delivery */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        How soon will my order arrive?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        Orders are usually shipped within 24 hours and delivered in 3–5 working days across India.
+        Each bottle is carefully packed to reach you safely, fresh and intact.
+      </p>
+    </details>
+
+    {/* 8. Brand Trust */}
+    <details className="bg-neutral-light p-5 rounded-xl border border-neutral-200 hover:border-amber-200 transition-all">
+      <summary className="font-medium cursor-pointer text-secondary">
+        Why should I choose Roots and Richness over other brands?
+      </summary>
+      <p className="mt-3 text-medium leading-relaxed">
+        We stay true to purity — sourcing directly from Indian farmers and using traditional wooden
+        churns to extract every drop. No shortcuts, no compromise. Our oils bring back the natural
+        aroma, flavor, and health that your kitchen truly deserves.
+      </p>
+    </details>
+  </div>
+</div>
       </div>
 
       <StickyCheckoutButton />

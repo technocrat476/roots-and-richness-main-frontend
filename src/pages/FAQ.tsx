@@ -92,15 +92,34 @@ const FAQ = () => {
       }
     }))
   };
+const breadcrumbJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://rootsandrichness.in"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "FAQ",
+      "item": "https://rootsandrichness.in/faq"
+    }
+  ]
+};
+
 
   return (
     <div className="min-h-screen bg-white">
       <PageSEO
-        title="FAQ - Frequently Asked Questions | Wood-Pressed Oils"
-        description="Find answers to common questions about our wood-pressed oils, shipping, returns, and more. Search through our comprehensive FAQ to get quick answers."
-        keywords="FAQ, wood-pressed oils questions, shipping policy, return policy, oil storage, organic oils"
-        canonicalUrl="https://yoursite.com/faq"
-        structuredData={faqJsonLd}
+        title="FAQs – Wood-Pressed Oils, Shipping & Returns | Roots and Richness"
+        description="Got questions about wood-pressed oils, shipping, or returns? Explore our detailed FAQ section for clear answers about quality, sourcing, and natural wellness products."
+        keywords="FAQ, wood pressed oil questions, roots and richness support, shipping policy, return policy, organic oils, oil storage tips"
+        canonicalUrl="https://rootsandrichness.in/faq"
+        structuredData={[faqJsonLd, breadcrumbJsonLd]}
       />
 
       {/* JSON-LD structured data */}
@@ -167,6 +186,8 @@ const FAQ = () => {
                     <button
                       onClick={() => toggleItem(faq.question)}
                       className="w-full text-left p-6 flex items-center justify-between hover:bg-gray-50 transition-colors"
+  aria-expanded={openItems.includes(faq.question)}
+  aria-controls={`faq-answer-${index}`}
                     >
                       <h3 className="text-lg font-semibold text-secondary pr-4">
                         {faq.question}
@@ -179,7 +200,7 @@ const FAQ = () => {
                     </button>
                     
                     {openItems.includes(faq.question) && (
-                      <div className="px-6 pb-6">
+                      <div id={`faq-answer-${index}`} className="px-6 pb-6">
                         <p className="text-neutral-medium leading-relaxed">
                           {faq.answer}
                         </p>
