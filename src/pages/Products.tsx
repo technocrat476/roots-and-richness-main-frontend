@@ -439,9 +439,7 @@ const Products = () => {
           >
             <ShoppingCart size={16} className="mr-2" />
             Add to Cart
-          </Button>
-	  
-
+          </Button>	  
         </div>
       </div>
     </CardContent>

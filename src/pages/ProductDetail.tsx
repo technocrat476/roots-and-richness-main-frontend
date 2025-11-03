@@ -5,7 +5,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import PageSEO from '@/components/SEO/PageSEO'; 
-import { ShoppingCart, Heart, Truck, Shield, Star, ArrowLeft } from 'lucide-react';
+import { ShoppingCart, Heart, Truck, Shield, Star, ArrowLeft, Zap} from 'lucide-react';
 import { RotateCcw } from 'lucide-react';
 import { Separator} from '@/components/ui/separator';
 import apiClient from '@/services/api';
@@ -399,7 +399,49 @@ console.log("Related products =>", related);
                 Inclusive of all taxes • Free shipping on orders above ₹499
               </p>
             </div>
+{selectedVariant?.price > 499 && (
+  <div className="mt-4 p-4 border rounded-2xl shadow-sm bg-gray-50">
+    <h4 className="text-lg font-semibold text-green-700 mb-2 font-inter">
+      🎉 You Get This At
+    </h4>
 
+    {(() => {
+      const discountPercent = 5; // 🔥 hardcode your discount %
+      const finalPrice = Math.ceil(
+        selectedVariant.price - (selectedVariant.price * discountPercent) / 100
+      );
+
+      return (
+        <>
+          <div className="flex items-center gap-3">
+            {/* ✅ Final discounted price */}
+            <span className="text-2xl font-bold text-gray-900">₹{finalPrice}</span>
+
+            {/* ✅ Show original price */}
+            <span className="text-gray-500 line-through">
+              ₹{selectedVariant.price}
+            </span>
+
+            {/* ✅ Show discount percentage */}
+            <span className="text-sm font-medium text-green-600">
+              {discountPercent}% OFF
+            </span>
+          </div>
+
+          {/* ✅ Coupon line */}
+          <p className="text-sm text-orange-600 font-medium mt-1">
+            💳 Use coupon <span className="font-bold">FIRST5</span> for extra {discountPercent}% off
+          </p>
+
+          {/* ✅ Shipping / GST line */}
+          <p className="text-sm text-gray-600 mt-1">
+            ✅ Inclusive of GST 
+          </p>
+        </>
+      );
+    })()}
+  </div>
+)}
             {/* Size Selection */}
             {Array.isArray(product.variants) && product.variants.length > 0 && (
               <div className="space-y-3">
@@ -445,71 +487,52 @@ console.log("Related products =>", related);
               </div>
             </div>
 
-            {/* Add to Cart */}
-            <div className="space-y-4">
-              <div className="flex space-x-4">
-                <Button
-                  onClick={handleAddToCart}
-                  disabled={!product.isActive}
-                  className="btn-primary flex-1"
-                  size="lg"
-                >
-                  <ShoppingCart size={20} className="mr-2" />
-                  Add to Cart
-                </Button>
-                <Button variant="outline" size="lg" aria-label="Add to wishlist">
-                  <Heart size={20} />
-                </Button>
-              </div>
-              
-              {!product.isActive && (
-                <p className="text-destructive text-sm">This product is currently out of stock.</p>
-              )}
-            </div>
-{selectedVariant?.price > 499 && (
-  <div className="mt-4 p-4 border rounded-2xl shadow-sm bg-gray-50">
-    <h4 className="text-lg font-semibold text-green-700 mb-2 font-inter">
-      🎉 You Get This At
-    </h4>
+{/* --- Add to Cart & Buy Now Section --- */}
+<div className="w-full mt-6">
+  <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 w-full">
 
-    {(() => {
-      const discountPercent = 5; // 🔥 hardcode your discount %
-      const finalPrice = Math.ceil(
-        selectedVariant.price - (selectedVariant.price * discountPercent) / 100
-      );
+    {/* Buy Now */}
+    <Button
+      onClick={(e) => {
+        e.preventDefault();
+        if (!product.isActive) return;
+        handleAddToCart(product);
+        window.location.href = "/checkout";
+      }}
+      disabled={!product.isActive}
+      className="buy-now-shimmer flex-1 bg-amber-800 text-white font-medium 
+                 rounded-xl sm:rounded-md px-5 py-3 sm:py-4 
+                 shadow-sm hover:shadow-md hover:bg-amber-900 
+                 transition-all duration-300 flex justify-center 
+                 items-center gap-2"
+    >
+      <Zap className="w-4 h-4" />
+      Buy Now
+    </Button>
 
-      return (
-        <>
-          <div className="flex items-center gap-3">
-            {/* ✅ Final discounted price */}
-            <span className="text-2xl font-bold text-gray-900">₹{finalPrice}</span>
+    {/* Add to Cart */}
+    <Button
+      onClick={handleAddToCart}
+      disabled={!product.isActive}
+      className="flex-1 bg-primary text-white font-medium 
+                 rounded-xl sm:rounded-md px-5 py-3 sm:py-4 
+                 shadow-sm hover:shadow-md hover:bg-primary/90 
+                 transition-all duration-300 flex justify-center 
+                 items-center gap-2"
+    >
+      <ShoppingCart size={18} />
+      Add to Cart
+    </Button>
 
-            {/* ✅ Show original price */}
-            <span className="text-gray-500 line-through">
-              ₹{selectedVariant.price}
-            </span>
-
-            {/* ✅ Show discount percentage */}
-            <span className="text-sm font-medium text-green-600">
-              {discountPercent}% OFF
-            </span>
-          </div>
-
-          {/* ✅ Coupon line */}
-          <p className="text-sm text-orange-600 font-medium mt-1">
-            💳 Use coupon <span className="font-bold">FIRST5</span> for extra {discountPercent}% off
-          </p>
-
-          {/* ✅ Shipping / GST line */}
-          <p className="text-sm text-gray-600 mt-1">
-            ✅ Inclusive of GST 
-          </p>
-        </>
-      );
-    })()}
   </div>
-)}
 
+  {/* Out of Stock Message */}
+  {!product.isActive && (
+    <p className="text-destructive text-sm mt-3 text-center font-medium">
+      This product is currently out of stock.
+    </p>
+  )}
+</div>
             {/* Enhanced Trust Badges */}
             <div className="grid grid-cols-3 gap-4 py-6 bg-neutral-light rounded-lg px-4">
               <div className="text-center space-y-2">
