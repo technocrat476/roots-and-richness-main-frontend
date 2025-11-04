@@ -557,7 +557,16 @@ const Checkout = () => {
                       <CardContent className="p-3">
                         <h3 className="font-playfair font-semibold text-gray-800 mb-1">{product.name}</h3>
                         <div className="flex items-center justify-between">
-                          <span className="text-lg font-bold text-gray-800">₹{product.price}</span>
+                          <div className="space-x-1">
+                            <span className="text-xl font-bold text-secondary">
+                              ₹{product?.price ?? 0}
+                            </span>
+                            {product.originalPrice ? (
+                              <span className="text-sm text-neutral-medium line-through">
+                                ₹{product.originalPrice}
+                              </span>
+                            ) : null}
+                          </div>
                           <Button size="sm" variant={product.isActive ? 'outline' : 'destructive'} disabled={!product.isActive} onClick={(e) => {
                             e.stopPropagation();
                             dispatch({ type: 'ADD_ITEM', payload: { product: product._id, name: product.name, price: product.price, image: product.images[0]?.url || '', slug: product.slug, size: 'default', quantity: 1, variantId: null } });
