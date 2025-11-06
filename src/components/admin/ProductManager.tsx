@@ -27,6 +27,7 @@ interface Product {
   isActive: boolean;
   originalPrice: number;
   isFeatured: boolean;
+  isSale: boolean;
   rating: number;
   numReviews: number;
 }
@@ -48,6 +49,7 @@ const initialFormData = {
   lowStockThreshold: '',
   isActive: "true",
   isFeatured: "true",
+  isSale: "true",
   rating: "",
   numReviews: "",
   variants: [] as Array<{ size: string; price: any; originalPrice: any; stock: any }>,
@@ -121,6 +123,7 @@ const ProductManager: React.FC = () => {
         isActive: p.isActive ?? true,
         originalPrice: p.originalPrice ?? 0,
         isFeatured: p.isFeatured ?? true,
+        isSale: p.isSale ?? true,
         rating: p.rating,
         numReviews: p.numReviews ?? 0,
         variants: p.variants ?? [],
@@ -174,6 +177,7 @@ const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
       isActive: product.isActive ? 'true' : 'false',
       originalPrice: String(product.originalPrice),
       isFeatured: product.isFeatured ? 'true' : 'false',
+      isSale: product.isSale ? 'true' : 'false',
       rating: String(product.rating),
       numReviews: String(product.numReviews),
       variants: product.variants?.length ? product.variants : [],
@@ -291,6 +295,7 @@ const reviewBy =
       isActive: formData.isActive,
       originalPrice: Number(formData.originalPrice || 0),
       isFeatured: formData.isFeatured,
+      isSale: formData.isSale,
       rating: Number(formData.rating),
       numReviews: Number(formData.numReviews),
       variants: (formData.variants || []).map((v) => ({
@@ -609,6 +614,18 @@ const handleVariantStockChange = async (
                     id="isActive"
                     value={formData.isActive}
                     onChange={(e) => setFormData({...formData, isActive: e.target.value})}
+                    className="w-full px-3 py-2 border rounded-md"
+                  >
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                </div>
+                <div>
+                  <Label htmlFor="isSale">Sale</Label>
+                  <select
+                    id="isSale"
+                    value={formData.isSale}
+                    onChange={(e) => setFormData({...formData, isSale: e.target.value})}
                     className="w-full px-3 py-2 border rounded-md"
                   >
                     <option value="true">Active</option>

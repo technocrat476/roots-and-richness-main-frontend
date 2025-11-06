@@ -468,7 +468,7 @@ console.log("Related products =>", related);
                 Inclusive of all taxes • Free shipping on orders above ₹499
               </p>
             </div>
-{selectedVariant?.price > 499 && (
+{product?.isSale && selectedVariant?.price > 498 && (
   <div className="mt-4 p-4 border rounded-2xl shadow-sm bg-gray-50">
     <h4 className="text-lg font-semibold text-green-700 mb-2 font-inter">
       🎉 You Get This At
