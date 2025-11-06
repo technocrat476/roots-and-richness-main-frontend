@@ -34,6 +34,75 @@ const ProductDetail = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const swiperRef = useRef<any>(null);
   const navigate = useNavigate();
+// --- Timer & Social Proof State ---
+const [timeLeft, setTimeLeft] = useState(0);
+const [buyersToday, setBuyersToday] = useState(0);
+
+// Helper: Format remaining time
+const formatTimeLeft = (seconds: number) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = seconds % 60;
+  return `${hours.toString().padStart(2, '0')}h:${minutes.toString().padStart(2, '0')}m:${secs.toString().padStart(2, '0')}s`;
+};
+
+useEffect(() => {
+  if (!product?.slug) return; // ✅ wait until product loads
+
+  const BASE_BUYERS_KEY = "rr_buyers_today_";
+  const TIMER_KEY = "rr_sale_timer";
+  const today = new Date().toDateString();
+  const now = new Date();
+  const midnight = new Date(now);
+  midnight.setHours(24, 0, 0, 0); // next midnight
+  const secondsUntilMidnight = Math.floor((midnight.getTime() - now.getTime()) / 1000);
+
+  // --- 🧮 Product-Specific Buyers Count ---
+  const productBuyersKey = `${BASE_BUYERS_KEY}${product.slug}`;
+  const savedData = localStorage.getItem(productBuyersKey);
+
+  if (savedData) {
+    const parsed = JSON.parse(savedData);
+    if (parsed.date === today) {
+      setBuyersToday(parsed.value); // ✅ Reuse today’s number
+    } else {
+      const newCount = Math.floor(50 + Math.random() * 100); // 🔢 50–150 range
+      setBuyersToday(newCount);
+      localStorage.setItem(productBuyersKey, JSON.stringify({ value: newCount, date: today }));
+    }
+  } else {
+    const newCount = Math.floor(50 + Math.random() * 100);
+    setBuyersToday(newCount);
+    localStorage.setItem(productBuyersKey, JSON.stringify({ value: newCount, date: today }));
+  }
+
+  // --- ⏱ Timer (same for all products, resets daily) ---
+  const savedTimer = localStorage.getItem(TIMER_KEY);
+  if (savedTimer) {
+    const parsed = JSON.parse(savedTimer);
+    if (parsed.date === today && parsed.remaining > 0) {
+      setTimeLeft(parsed.remaining);
+    } else {
+      setTimeLeft(secondsUntilMidnight);
+      localStorage.setItem(TIMER_KEY, JSON.stringify({ date: today, remaining: secondsUntilMidnight }));
+    }
+  } else {
+    setTimeLeft(secondsUntilMidnight);
+    localStorage.setItem(TIMER_KEY, JSON.stringify({ date: today, remaining: secondsUntilMidnight }));
+  }
+
+  // --- ⏳ Countdown effect ---
+  const interval = setInterval(() => {
+    setTimeLeft((prev) => {
+      const newTime = prev > 0 ? prev - 1 : 0;
+      localStorage.setItem(TIMER_KEY, JSON.stringify({ date: today, remaining: newTime }));
+      return newTime;
+    });
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, [product?.slug]);
+
   const handleThumbnailClick = (index) => {
     setSelectedImage(index);
     if (swiperRef.current) {
@@ -442,6 +511,36 @@ console.log("Related products =>", related);
     })()}
   </div>
 )}
+{/* --- Limited Time Offer & Social Proof --- 
+<div className="mt-5">
+  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 sm:gap-6 bg-[#faf8f5] border border-[#eee3d6] rounded-2xl p-5 sm:p-6 shadow-sm transition-all"> */}
+    
+    {/* Countdown Timer 
+    <div className="flex items-center gap-2">
+      <div className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></div>
+      <p className="text-sm sm:text-base font-medium text-[#8B5E3C]">
+        ⏳ <span className="font-semibold text-red-600">{formatTimeLeft(timeLeft)}</span> left for today’s sale!
+      </p>
+    </div> */}
+
+    {/* Divider on mobile 
+    <div className="block sm:hidden border-t border-[#e7dfd2]"></div> */}
+
+    {/* Social Proof *
+    <div className="flex items-center gap-3 justify-start sm:justify-end">
+      <span className="text-xl sm:text-xl leading-none">🔥</span>
+      <p className="text-sm sm:text-base text-neutral-dark font-medium flex items-center gap-2">
+        <span className="font-bold text-[#8B5E3C] text-xl sm:text-xl leading-none tabular-nums">
+          {buyersToday.toString().padStart(2, '0')}
+        </span>
+        <span className="text-sm sm:text-base text-neutral-dark">
+          people bought this today
+        </span>
+      </p>
+    </div>
+  </div>
+</div> /}
+
             {/* Size Selection */}
             {Array.isArray(product.variants) && product.variants.length > 0 && (
               <div className="space-y-3">

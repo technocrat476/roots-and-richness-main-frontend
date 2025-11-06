@@ -77,18 +77,26 @@ const HealthBenefitsSection = () => {
           })}
         </div>
 
-        <div className="text-center space-x-4">
-          <Link to="/products">
-            <Button size="lg" className="btn-primary">
-              Explore Our Oils
-            </Button>
-          </Link>
-          <Link to="/about">
-            <Button size="lg" variant="outline">
-              Learn the Wood-Pressed Method
-            </Button>
-          </Link>
-        </div>
+<div className="text-center flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-6">
+  <Link to="/products" className="w-full sm:w-auto">
+    <Button
+      size="lg"
+      className="w-full sm:w-auto bg-[#d4a441] text-[#FFF9F3] px-8 py-3 shadow-sm hover:bg-[#d7ac52] hover:shadow-md transition-all duration-300 ease-in-out"
+    >
+      Explore Our Oils
+    </Button>
+  </Link>
+  <Link to="/about" className="w-full sm:w-auto">
+    <Button
+      size="lg"
+      variant="outline"
+      className="w-full sm:w-auto border border-[#B68B48] text-[#020817] px-8 py-3 hover:bg-[#a94d2c] hover:shadow-sm transition-all duration-300 ease-in-out"
+    >
+      Learn the Wood-Pressed Method
+    </Button>
+  </Link>
+</div>
+
       </div>
     </section>
   );
