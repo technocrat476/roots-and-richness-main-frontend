@@ -237,10 +237,6 @@ const Index = () => {
                       ? "Crafted from fresh coconuts of Kerala coast"
                       : "Sourced from trusted Indian farms")}
                 </p>
-
-                <p className="text-sm text-neutral-medium mt-2 line-clamp-2">
-                  {product.shortDescription}
-                </p>
               </div>
 
              <div className="flex flex-col gap-1">

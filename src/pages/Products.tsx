@@ -374,9 +374,6 @@ const Products = () => {
                 ? "Crafted from fresh coconuts of Kerala coast"
                 : "Sourced from trusted Indian farms")}
           </p>
-                          <p className="text-sm text-neutral-medium mt-1 line-clamp-2">
-                            {short}
-                          </p>
                         </div>
 
                         <div className="flex items-center justify-between">

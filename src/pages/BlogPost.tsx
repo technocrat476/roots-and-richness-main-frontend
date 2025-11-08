@@ -269,7 +269,7 @@ useEffect(() => {
           <div className="prose prose-lg max-w-none">
             {post.content ? (
               <div
-                className="text-neutral-medium leading-relaxed space-y-6"
+                className="text-medium leading-relaxed space-y-6"
                 dangerouslySetInnerHTML={{ __html: post.content }}
               />
             ) : (

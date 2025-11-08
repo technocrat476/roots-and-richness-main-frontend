@@ -17,6 +17,7 @@ interface Product {
   stock: number;
   category: string;
   description: string;
+  shortDescription: string;
   benefits: string;
   howToUse: string;
   pReview: string;
@@ -39,6 +40,7 @@ const initialFormData = {
   stock: "",
   category: "",
   description: "",
+  shortDescription: "",
   images: [],
   benefits: [],
   howToUse: [],
@@ -113,6 +115,7 @@ const ProductManager: React.FC = () => {
         stock: p.stock ?? p.countInStock ?? 0,
         category: p.category ?? '',
         description: p.description ?? '',
+        shortDescription: p.shortDescription ?? '',
         benefits: p.benefits ?? '',
         howToUse: p.howToUse ?? '',
         pReview: p.pReview ?? '',
@@ -167,6 +170,7 @@ const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
       stock: String(product.stock),
       category: product.category,
       description: product.description,
+      shortDescription: product.shortDescription,
       benefits: product.benefits,
       howToUse: product.howToUse,
       pReview: product.pReview,
@@ -286,6 +290,7 @@ const reviewBy =
       stock: Number(formData.stock || 0),
       category: formData.category || 'Uncategorized',
       description: formData.description || "",
+      shortDescription: formData.shortDescription || "",
       benefits,
       howToUse,
       pReview,
@@ -666,6 +671,14 @@ const handleVariantStockChange = async (
                     id="slug"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Label htmlFor="shortDescription">Short Description</Label>
+                  <Input
+                    id="shortDescription"
+                    value={formData.shortDescription}
+                    onChange={(e) => setFormData({ ...formData, shortDescription: e.target.value })}
                   />
                 </div>
                 <div className="col-span-2">
