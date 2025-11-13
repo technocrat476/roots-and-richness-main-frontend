@@ -21,6 +21,7 @@ interface BlogPost {
   status: string;
   category?: string;
   featuredImage?: string;
+  feature: boolean;
 }
 
 const BlogManager = () => {
@@ -35,7 +36,8 @@ const BlogManager = () => {
     author: 'Admin', // will be auto-populated from logged-in admin if available
     category: '', // 
     featuredImage: "",
-    status: 'published'
+    status: 'published',
+    featured: 'true',
   });
 
   // Fetch blogs from backend
@@ -87,7 +89,7 @@ const generateSlug = (title: string) =>
         setPosts([...posts, created.blog]);
       }
       // reset
-      setFormData({ title: '', slug: '', excerpt: '', content: '', author: '', category: '', status: 'published' });
+      setFormData({ title: '', slug: '', excerpt: '', content: '', author: '', category: '', status: 'published', featured: 'true' });
       setEditingPost(null);
       setShowForm(false);
     } catch (err: any) {
@@ -121,6 +123,7 @@ const handleEdit = async (post: BlogPost) => {
       featuredImage: fullPost.featuredImage?.url || "",
       category: fullPost.category || "",
       status: fullPost.status || "draft",
+      featured: fullPost.featured || true,
     });
     setShowForm(true);
   } catch (err) {
@@ -232,6 +235,19 @@ const handleEdit = async (post: BlogPost) => {
 
     </select>
   </div>
+           {/* Featured Status */}
+               <div className="col-span-2">
+                 <Label htmlFor="featured">Featured</Label>
+                  <select
+                    id="featured"
+                    value={formData.featured}
+                    onChange={(e) => setFormData({...formData, featured: e.target.value})}
+                    className="w-full border rounded p-2"
+                  >
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                  </select>
+                </div>
               <div>
                 <Label htmlFor="content">Content</Label>
                 <ReactQuill
@@ -275,6 +291,7 @@ const handleEdit = async (post: BlogPost) => {
                 <TableHead>Author</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead>Featured</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -285,6 +302,7 @@ const handleEdit = async (post: BlogPost) => {
                   <TableCell>{post.author || 'Admin'}</TableCell>
                   <TableCell>{new Date(post.createdAt).toLocaleDateString()}</TableCell>
                   <TableCell>{post.status}</TableCell>
+                  <TableCell>{post.featured}</TableCell>
                   <TableCell>
                     <div className="flex space-x-2">
                       <Button size="sm" variant="outline" onClick={() => handleEdit(post)}>

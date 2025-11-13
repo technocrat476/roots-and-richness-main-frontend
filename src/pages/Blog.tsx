@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Calendar, User, ArrowRight, Clock, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
@@ -26,6 +25,7 @@ interface BlogPost {
   readTime?: string;
   featured?: boolean;
   tags: string[];
+  featuredImage?: { url?: string; alt?: string };
 }
 const Blog = () => {
   usePerformance('Blog Page');
@@ -34,6 +34,9 @@ const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const { toast } = useToast();
   
   const handleSubscribe = async (e: React.FormEvent) => {
@@ -167,7 +170,54 @@ const Blog = () => {
 
     
   const categories = ['All', 'Health & Wellness', 'Sustainability', 'Products'];
-  // Merge backend + static posts first
+
+  // ✅ Fetch blogs with pagination + filters
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        if (page === 1) setLoading(true);
+        else setLoadingMore(true);
+
+        const res = await apiClient.getBlogs({
+          page,
+          limit: 6,
+          sort: "latest",
+          category: selectedCategory !== 'All' ? selectedCategory : undefined,
+          search: searchTerm || undefined,
+        });
+
+        if (res?.success) {
+          const formattedBlogs = res.blogs.map((b: any) => ({
+            ...b,
+            id: b._id,
+            date: b.publishedAt || b.createdAt,
+            image: b.featuredImage?.url || b.image || "",
+          }));
+
+          if (page === 1) {
+            setBackendBlogs(formattedBlogs);
+          } else {
+            setBackendBlogs(prev => [...prev, ...formattedBlogs]);
+          }
+          setTotalPages(res.totalPages);
+        }
+      } catch (err) {
+        console.error("Error fetching blogs:", err);
+      } finally {
+        setLoading(false);
+        setLoadingMore(false);
+      }
+    };
+
+    fetchBlogs();
+  }, [page, selectedCategory, searchTerm]);
+
+  // Reset pagination + scroll to top on filter change
+  useEffect(() => {
+    setPage(1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [selectedCategory, searchTerm]);
+
   const allPosts = [...backendBlogs, ...staticPosts];
   // Filter posts based on category and search
   const filteredPosts = allPosts.filter(post => {
@@ -175,7 +225,7 @@ const Blog = () => {
     const matchesSearch = searchTerm === '' || 
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.excerpt.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
+      post.tags?.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase()));
     return matchesCategory && matchesSearch;
   });
   
@@ -208,36 +258,6 @@ const Blog = () => {
     }
   };
 
-useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const res = await apiClient.getBlogs({ page: 1, limit: 6, sort: "latest" });
-        if (res?.success) {
-          setBackendBlogs(
-            res.blogs.map((b: any) => ({
-              ...b,
-              id: b._id,
-              date: b.publishedAt || b.createdAt,
-              image: b.featuredImage?.url || "",
-            }))
-          );
-        }
-      } catch (err) {
-        console.error("Error fetching blogs:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchBlogs();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, []);
-
-  // Merge backend + static posts
-  //const allPosts = [...backendBlogs, ...staticPosts];
-
-//  const featuredPosts = allPosts.filter((post) => post.featured);
-//  const regularPosts = allPosts.filter((post) => !post.featured);
   return (
     <>
       <PageSEO {...seoData} />
@@ -302,8 +322,8 @@ useEffect(() => {
                   <Card key={post.id} className="group hover:shadow-xl transition-all duration-300 animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                     <div className="relative overflow-hidden rounded-t-lg">
                       <img
-                        src={post.image}
-                        alt={`${post.title} - Featured article on ${post.category.toLowerCase()}`}
+                        src={post.image || post.featuredImage?.url || "https://via.placeholder.com/600x400"}
+                        alt={post.featuredImage?.alt || post.title}
                         className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                       />
                       <Badge className="absolute top-4 left-4 bg-primary text-white">
@@ -366,7 +386,7 @@ useEffect(() => {
                 <Card key={post.id} className="group hover:shadow-lg transition-shadow duration-300 animate-fade-in" style={{ animationDelay: `${index * 0.05}s` }}>
                   <div className="relative overflow-hidden rounded-t-lg">
                     <img
-                      src={post.image}
+                      src={post.image || post.featuredImage?.url || "https://via.placeholder.com/600x400"}
                       alt={`${post.title} - Article about ${post.tags.join(', ')}`}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
@@ -428,10 +448,10 @@ useEffect(() => {
           )}
 
           {/* Load More */}
-          {filteredPosts.length > 0 && (
+          {filteredPosts.length > 0 && page < totalPages && (
             <div className="text-center mt-12">
-              <Button variant="outline" size="lg">
-                Load More Articles
+              <Button variant="outline" size="lg" disabled={loadingMore} onClick={() => setPage(prev => prev + 1)}>
+                {loadingMore ? "Loading..." : "Load More Articles"}
               </Button>
             </div>
           )}
