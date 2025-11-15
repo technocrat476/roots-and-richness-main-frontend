@@ -380,7 +380,7 @@ console.log("Related products =>", related);
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl lg:text-4xl font-playfair font-bold text-secondary mb-2">
-                {product.name} – Pure Goodness in Every Drop
+                {product.name} – {product.tagline}
               </h1>
               <p className="text-lg text-neutral-medium">
                 {product.shortDescription}

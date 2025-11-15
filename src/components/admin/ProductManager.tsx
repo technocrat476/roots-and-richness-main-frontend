@@ -18,6 +18,7 @@ interface Product {
   category: string;
   description: string;
   shortDescription: string;
+  tagline: string;
   benefits: string;
   howToUse: string;
   pReview: string;
@@ -41,6 +42,7 @@ const initialFormData = {
   category: "",
   description: "",
   shortDescription: "",
+  tagline: "",
   images: [],
   benefits: [],
   howToUse: [],
@@ -116,6 +118,7 @@ const ProductManager: React.FC = () => {
         category: p.category ?? '',
         description: p.description ?? '',
         shortDescription: p.shortDescription ?? '',
+        tagline: p.tagline ?? '',
         benefits: p.benefits ?? '',
         howToUse: p.howToUse ?? '',
         pReview: p.pReview ?? '',
@@ -171,6 +174,7 @@ const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
       category: product.category,
       description: product.description,
       shortDescription: product.shortDescription,
+      tagline: product.tagline,
       benefits: product.benefits,
       howToUse: product.howToUse,
       pReview: product.pReview,
@@ -291,6 +295,7 @@ const reviewBy =
       category: formData.category || 'Uncategorized',
       description: formData.description || "",
       shortDescription: formData.shortDescription || "",
+      tagline: formData.tagline || "",
       benefits,
       howToUse,
       pReview,
@@ -671,6 +676,14 @@ const handleVariantStockChange = async (
                     id="slug"
                     value={formData.slug}
                     onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
+                  />
+                </div>
+                <div className="col-span-2">
+                  <Label htmlFor="tagline">Tagline</Label>
+                  <Input
+                    id="tagline"
+                    value={formData.tagline}
+                    onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
                   />
                 </div>
                 <div className="col-span-2">
