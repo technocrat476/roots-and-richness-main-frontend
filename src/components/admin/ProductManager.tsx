@@ -21,6 +21,7 @@ interface Product {
   tagline: string;
   benefits: string;
   howToUse: string;
+  howToUseImage: string;
   pReview: string;
   reviewBy: string;
   sourceDescription: string;
@@ -46,6 +47,7 @@ const initialFormData = {
   images: [],
   benefits: [],
   howToUse: [],
+  howToUseImage: [],
   pReview: [],
   reviewBy: [],
   sourceDescription: '',
@@ -121,6 +123,7 @@ const ProductManager: React.FC = () => {
         tagline: p.tagline ?? '',
         benefits: p.benefits ?? '',
         howToUse: p.howToUse ?? '',
+        howToUseImage: p.howToUseImage ?? '',
         pReview: p.pReview ?? '',
         reviewBy: p.reviewBy ?? '',
         sourceDescription: p.sourceDescription ?? '',
@@ -177,6 +180,7 @@ const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
       tagline: product.tagline,
       benefits: product.benefits,
       howToUse: product.howToUse,
+      howToUseImage: product.howToUseImage,
       pReview: product.pReview,
       reviewBy: product.reviewBy,
       sourceDescription: product.sourceDescription,
@@ -298,6 +302,7 @@ const reviewBy =
       tagline: formData.tagline || "",
       benefits,
       howToUse,
+      howToUseImage: formData.howToUseImage || "",
       pReview,
       reviewBy,
       sourceDescription: formData.sourceDescription,
@@ -718,6 +723,14 @@ const handleVariantStockChange = async (
                     id="howToUse"
                     value={formData.howToUse}
                     onChange={(e) => setFormData({...formData, howToUse: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="howToUseImage">Usage Image</Label>
+                  <Input
+                    id="howToUseImage"
+                    value={formData.howToUseImage}
+                    onChange={(e) => setFormData({...formData, howToUseImage: e.target.value})}
                   />
                 </div>
                 <div>

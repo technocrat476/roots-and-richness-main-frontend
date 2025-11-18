@@ -496,7 +496,6 @@ console.log("Related products =>", related);
               {discountPercent}% OFF
             </span>
           </div>
-
           {/* ✅ Coupon line */}
           <p className="text-sm text-orange-600 font-medium mt-1">
             💳 Use coupon <span className="font-bold">FIRST5</span> for extra {discountPercent}% off
@@ -710,35 +709,55 @@ console.log("Related products =>", related);
             </div>
           )}
 
-          {/* Usage Ideas */}
-          {product.howToUse && (
-            <div className="space-y-4">
-              <h2 className="text-2xl font-playfair font-bold text-secondary">How to Use</h2>
-              <div className="bg-neutral-light p-6 rounded-lg">
-                <p className="text-neutral-medium leading-relaxed"></p>
-                
-                {product.category === 'oils' && (
-                  <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center">
-                      <div className="text-2xl mb-2">🍳</div>
-                      <div className="text-sm font-medium">{product.howToUse[0]}</div>
-                      <div className="text-xs text-neutral-medium">Perfect for all Indian dishes</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl mb-2">💆‍♀️</div>
-                      <div className="text-sm font-medium">{product.howToUse[1]}</div>
-                      <div className="text-xs text-neutral-medium">Morning wellness routine</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-2xl mb-2">🌿</div>
-                      <div className="text-sm font-medium">Ayurvedic Use</div>
-                      <div className="text-xs text-neutral-medium">Traditional wellness</div>
-                    </div>
-                  </div>
-                )}
-              </div>
+{/* Usage Ideas */}
+{product.howToUse && (
+  <div className="space-y-4">
+    <h2 className="text-2xl font-playfair font-bold text-secondary">How to Use</h2>
+
+    <div className="bg-neutral-light p-6 rounded-lg">
+
+      {/* ----------- MOBILE VIEW (Image Only) ----------- */}
+      {product.howToUseImage?.length > 0 && (
+        <div className="md:hidden w-full rounded-xl overflow-hidden">
+          <img
+            src={product.howToUseImage[0]}   // <-- your image URL from DB
+            alt="How to Use"
+            className="w-full h-auto object-cover rounded-xl"
+          />
+        </div>
+      )}
+
+      {/* ----------- DESKTOP VIEW (Your existing 3-step grid) ----------- */}
+      {product.category === 'oils' && (
+        <div className="hidden md:grid mt-4 grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="text-center">
+            <div className="text-2xl mb-2">🍳</div>
+            <div className="text-sm font-medium">{product.howToUse[0]}</div>
+            <div className="text-xs text-neutral-medium">
+              Perfect for all Indian dishes
             </div>
-          )}
+          </div>
+
+          <div className="text-center">
+            <div className="text-2xl mb-2">💆‍♀️</div>
+            <div className="text-sm font-medium">{product.howToUse[1]}</div>
+            <div className="text-xs text-neutral-medium">
+              Morning wellness routine
+            </div>
+          </div>
+
+          <div className="text-center">
+            <div className="text-2xl mb-2">🌿</div>
+            <div className="text-sm font-medium">Ayurvedic Use</div>
+            <div className="text-xs text-neutral-medium">
+              Traditional wellness
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  </div>
+)}
 
 {/* Customer Reviews Section */}
 <div className="space-y-6">

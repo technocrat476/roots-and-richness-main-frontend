@@ -218,7 +218,7 @@ const Blog = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [selectedCategory, searchTerm]);
 
-  const allPosts = [...backendBlogs, ...staticPosts];
+  const allPosts = [...backendBlogs];
   // Filter posts based on category and search
   const filteredPosts = allPosts.filter(post => {
     const matchesCategory = selectedCategory === 'All' || post.category === selectedCategory;
