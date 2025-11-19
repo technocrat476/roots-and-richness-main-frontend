@@ -6,23 +6,23 @@ export const organizationData = {
   "name": "Roots and Richness",
   "url": "https://rootsandrichness.in",
   "logo": "https://rootsandrichness.in/logo.png",
-  "description": "Premium natural wellness products including wood-pressed oils, tribal-sourced coffee, and traditional wellness items sourced directly from Indian farms and tribal communities.",
+  "description": "Roots and Richness brings you pure wood-pressed oils, tribal Araku coffee & natural wellness essentials. 100% chemical-free, sustainable & delivered across India.",
   "sameAs": [
     "https://www.instagram.com/rootsandrichness",
     "https://www.facebook.com/rootsandrichness"
   ],
   "contactPoint": {
     "@type": "ContactPoint",
-    "telephone": "+91-98765-43210",
+    "telephone": "+91-99006-06404",
     "contactType": "customer service",
     "availableLanguage": ["English", "Hindi"]
   },
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "123 Green Valley Road",
-    "addressLocality": "Mumbai",
-    "addressRegion": "Maharashtra",
-    "postalCode": "400001",
+    "streetAddress": "Indira Nagar",
+    "addressLocality": "Ballari",
+    "addressRegion": "Karnataka",
+    "postalCode": "583104",
     "addressCountry": "IN"
   }
 };
@@ -79,7 +79,7 @@ export const aboutPageData = {
   "mainEntity": {
     "@type": "Organization",
     "name": "Roots and Richness",
-    "foundingDate": "2018",
+    "foundingDate": "2025",
     "founder": {
       "@type": "Person",
       "name": "Jashwanth Kumar"
