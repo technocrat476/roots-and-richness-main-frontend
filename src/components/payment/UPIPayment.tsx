@@ -4,67 +4,88 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import axios from 'axios';
+import { QRCodeCanvas } from 'qrcode.react';
 
 interface UPIPaymentProps {
   amount: number;
-  orderId: string;
+  intentId: string;
   token: string; // JWT token for auth
   onSuccess: (paymentData: any) => void;
   onError: (error: string) => void;
   onCancel: () => void;
 }
 
-const UPIPayment: React.FC<UPIPaymentProps> = ({
-  amount,
-  orderId,
-  token,
-  onSuccess,
-  onError,
-  onCancel
-}) => {
-  const [qrCode, setQrCode] = useState('');
-  const [upiId, setUpiId] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'success' | 'failed'>('pending');
+const UPIPayment: React.FC<UPIPaymentProps> = ({ amount, intentId, token, onSuccess, onError, onCancel }) => {
+  const [upiLink, setUpiLink] = useState('');
   const [transactionId, setTransactionId] = useState('');
-
-  // Generate real QR or UPI intent
-  const createUPIPayment = async (app: string) => {
-    setIsLoading(true);
+  const [paymentStatus, setPaymentStatus] = useState<'pending' | 'processing' | 'success' | 'failed'>('pending');
+  const [isMobile, setIsMobile] = useState(false);
+  // Detect mobile
+  useEffect(() => {
+    setIsMobile(/iPhone|iPad|iPod|Android/i.test(navigator.userAgent));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+  // Create UPI link using PhonePe / merchant backend
+  const createUPILink = async (app?: string) => {
     setPaymentStatus('processing');
 
     try {
       const res = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/payments/phonepe/create-order`, // or Razorpay UPI endpoint
-        { amount, orderId },
+        `${import.meta.env.VITE_API_BASE_URL}/payments/phonepe/create-order`,
+        { intentId, amount: amount * 100 }, // amount in paise
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      const { data } = res.data;
+      const data = res.data.data;
 
-      setTransactionId(data.merchantTransactionId || data.txnId);
-      setUpiId(data.vpa || '');
-      setQrCode(data.upiLink || ''); // real QR or UPI link
+      // Merchant transaction ID and UPI link
+      const merchantTxnId = data.merchantTransactionId || data.txnId || intentId;
+      const vpa = data.vpa || 'merchant@upi';
+      const upi = `upi://pay?pa=${vpa}&pn=Merchant&am=${amount}&cu=INR&tid=${merchantTxnId}`;
 
-      // Redirect user if UPI intent exists
-      if (app && data.upiLink) {
-        window.location.href = data.upiLink;
+      setTransactionId(merchantTxnId);
+      setUpiLink(upi);
+
+      // On mobile, open the app directly
+      if (isMobile && app) {
+        window.location.href = upi;
       }
 
-      // Optionally: poll status or wait for webhook update
+      // Start polling backend for status
+      pollPaymentStatus();
     } catch (err: any) {
-      console.error('UPI Payment error:', err.response?.data || err.message);
+      console.error('UPI Payment creation error:', err.response?.data || err.message);
       setPaymentStatus('failed');
       onError(err.response?.data?.message || 'Failed to create payment');
-    } finally {
-      setIsLoading(false);
     }
+  };
+  const pollPaymentStatus = async () => {
+    const interval = setInterval(async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_BASE_URL}/payments/phonepe/check-status?intentId=${intentId}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (res.data.status === 'success') {
+          clearInterval(interval);
+          setPaymentStatus('success');
+          onSuccess(res.data);
+        } else if (res.data.status === 'failed') {
+          clearInterval(interval);
+          setPaymentStatus('failed');
+          onError('Payment failed');
+        }
+      } catch (err) {
+        console.error('Polling error:', err);
+      }
+    }, 5000); // every 5 seconds
   };
 
   const retryPayment = () => {
     setPaymentStatus('pending');
-    setQrCode('');
-    setUpiId('');
+    setUpiLink('');
+    setTransactionId('');
   };
 
   // UI Rendering
@@ -115,64 +136,61 @@ const UPIPayment: React.FC<UPIPaymentProps> = ({
       </CardHeader>
       <CardContent className="space-y-6">
         {/* UPI Apps */}
-        <div>
-          <h3 className="font-medium mb-3">Pay with UPI Apps</h3>
-          <div className="grid grid-cols-2 gap-3">
-            <Button 
-              variant="outline" 
-              onClick={() => createUPIPayment('phonepe')}
-              className="h-16 flex flex-col items-center space-y-1"
-            >
-              <Smartphone className="text-purple-600" size={24} />
-              <span className="text-sm">PhonePe</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => createUPIPayment('gpay')}
-              className="h-16 flex flex-col items-center space-y-1"
-            >
-              <Smartphone className="text-blue-600" size={24} />
-              <span className="text-sm">Google Pay</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => createUPIPayment('paytm')}
-              className="h-16 flex flex-col items-center space-y-1"
-            >
-              <Smartphone className="text-blue-500" size={24} />
-              <span className="text-sm">Paytm</span>
-            </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => createUPIPayment('bhim')}
-              className="h-16 flex flex-col items-center space-y-1"
-            >
-              <Smartphone className="text-orange-600" size={24} />
-              <span className="text-sm">BHIM</span>
-            </Button>
-          </div>
-        </div>
+<div className="grid grid-cols-2 gap-3">
+  <Button 
+    variant="outline" 
+    onClick={() => createUPILink('phonepe')}
+    className="h-16 flex flex-col items-center space-y-1 hover:bg-purple-50"
+  >
+    <Smartphone className="text-purple-600" size={24} />
+    <span className="text-sm text-purple-700 font-medium">PhonePe</span>
+  </Button>
+
+  <Button 
+    variant="outline" 
+    onClick={() => createUPILink('gpay')}
+    className="h-16 flex flex-col items-center space-y-1 hover:bg-blue-50"
+  >
+    <Smartphone className="text-blue-600" size={24} />
+    <span className="text-sm text-blue-700 font-medium">Google Pay</span>
+  </Button>
+
+  <Button 
+    variant="outline" 
+    onClick={() => createUPILink('paytm')}
+    className="h-16 flex flex-col items-center space-y-1 hover:bg-blue-50"
+  >
+    <Smartphone className="text-blue-500" size={24} />
+    <span className="text-sm text-blue-600 font-medium">Paytm</span>
+  </Button>
+
+  <Button 
+    variant="outline" 
+    onClick={() => createUPILink('bhim')}
+    className="h-16 flex flex-col items-center space-y-1 hover:bg-orange-50"
+  >
+    <Smartphone className="text-orange-600" size={24} />
+    <span className="text-sm text-orange-700 font-medium">BHIM</span>
+  </Button>
+</div>
 
         {/* QR Code Section */}
         <div className="text-center">
           <h3 className="font-medium mb-3">Or Scan QR Code</h3>
-          {isLoading ? (
+          {upiLink ? (
+            <QRCodeCanvas value={upiLink} size={180} />
+          ) : (
             <div className="flex items-center justify-center h-32">
               <RefreshCw className="animate-spin" size={32} />
-            </div>
-          ) : (
-            qrCode && <div className="bg-white p-4 rounded-lg border-2 border-dashed border-neutral-light inline-block">
-              <QrCode size={120} className="mx-auto mb-2" />
-              <p className="text-xs text-neutral-medium">Scan with any UPI app</p>
             </div>
           )}
         </div>
 
         {/* UPI ID */}
-        {upiId && (
+        {upiLink && (
           <div className="text-center">
-            <p className="text-sm text-neutral-medium mb-1">UPI ID:</p>
-            <code className="bg-neutral-light px-2 py-1 rounded text-sm">{upiId}</code>
+            <p className="text-sm text-neutral-medium mb-1">UPI Link:</p>
+            <code className="bg-neutral-light px-2 py-1 rounded text-sm">{upiLink}</code>
           </div>
         )}
 

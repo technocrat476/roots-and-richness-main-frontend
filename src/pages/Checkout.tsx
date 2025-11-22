@@ -46,6 +46,7 @@ const Checkout = () => {
   const [paymentProvider, setPaymentProvider] = useState<PaymentProvider | 'upi' | 'cod'>('upi');
   const [showUPIPayment, setShowUPIPayment] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [intentId, setIntentId] = useState<string>('');
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -140,8 +141,8 @@ const Checkout = () => {
     if (!validateForm()) return;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (paymentProvider === 'upi') {
-      setShowUPIPayment(true);
-      return;
+    await handleUPIPayment();
+    return;
     }
     
     setIsProcessing(true);
@@ -300,62 +301,103 @@ const Checkout = () => {
             });
           }
         );
-      } else if (paymentProvider === 'phonepe') {
-        const merchantTransactionId = `TXN_${Date.now()}`;
-        const phonePeData = {
-          amount: total * 100, // PhonePe expects amount in paise
-          merchantTransactionId,
-          merchantUserId: state.user?._id || `GUEST_${Date.now()}`,
-          redirectUrl: `${window.location.origin}/order-confirmation`,
-          redirectMode: 'POST',
-          callbackUrl: `${window.location.origin}/api/payments/phonepe/callback`,
-          mobileNumber: formData.phone,
-          paymentInstrument: {
-            type: 'PAY_PAGE'
-          }
+      } 
+else if (paymentProvider === 'phonepe') {
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+        const amountInPaise = Math.round(total * 100);
+        const initiateIntent = async (): Promise<string> => {
+         const payload = {
+         orderItems,
+         customerInfo: formData,
+         shippingAddress: formData,
+         couponCode: state.appliedCoupon?.code || null,
+         amount: amountInPaise,
+         currency: "INR"
+         };
+          const res = await fetch(`${API_BASE_URL}/payments/phonepe/initiate-intent`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.message || "Failed to initiate payment");
+          return data.intentId;
         };
 
-        await processPayment(
-          'phonepe',
-          phonePeData,
-          customerData,
-          (response) => {
-            // PhonePe will redirect, so we store order data in localStorage
-            const orderData = {
-              orderId: merchantTransactionId,
-              paymentProvider: 'phonepe',
-              items: state.items,
-              subtotal: subtotal,
-              tax: tax,
-              total: total,
-              customerInfo: formData,
-              appliedCoupon: state.appliedCoupon,
-              discountAmount: state.discountAmount,
-              paymentMethod: paymentProvider
-            };
-            localStorage.setItem('pendingOrder', JSON.stringify(orderData));
-          },
-          (error) => {
-            console.error('PhonePe payment error:', error);
-            toast({
-              title: "Payment Failed",
-              description: "There was an issue processing your payment. Please try again.",
-              variant: "destructive",
+        const createPhonePeOrder = async (intentId: string) => {
+          const payload = { intentId, amount: amountInPaise.toString(), currency: "INR" };
+          console.log("📤 Create order payload:", payload);
+          const res = await fetch(`${API_BASE_URL}/payments/phonepe/create-order`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+            intentId,
+            amount: total * 100, // total in INR * 100 = paise
+            currency: "INR",
+            }),
             });
-          }
-        );
+          const data = await res.json();
+          console.log("📥 Create order response:", data);
+          if (!data.success) throw new Error(data.message || "PhonePe create-order failed");
+          return data.data;
+        };
+
+        const intentId = await initiateIntent();
+        setIntentId(intentId);
+        const phonepeData = await createPhonePeOrder(intentId);
+        const redirectUrl = phonepeData.merchantRedirectUrl || phonepeData.redirectUrl;
+        window.location.href = redirectUrl;
       }
-    } catch (error) {
-      console.error('Payment processing error:', error);
-      toast({
-        title: "Payment Error",
-        description: "Unable to process payment. Please check your details and try again.",
-        variant: "destructive",
-      });
+    } catch (err: any) {
+      toast({ title: "Payment Error", description: err.message || "Unable to process payment", variant: "destructive" });
     } finally {
       setIsProcessing(false);
     }
   };
+const handleUPIPayment = async () => {
+  if (!validateForm()) return;
+
+  setIsProcessing(true);
+
+  try {
+    const { total } = calculateTotals();
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+    
+    // Build order items payload
+    const payload = {
+      orderItems,
+      customerInfo: formData,
+      shippingAddress: formData,
+      couponCode: state.appliedCoupon?.code || null,
+      amount: Math.round(total * 100),
+      currency: "INR"
+    };
+
+    console.log("📤 Initiating PhonePe/UPI intent:", payload);
+    const res = await fetch(`${API_BASE_URL}/payments/phonepe/initiate-intent`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    console.log("📥 PhonePe/UPI intent response:", data);
+
+    if (!data.success) throw new Error(data.message || "Failed to initiate payment");
+
+    setIntentId(data.intentId); // ✅ Set intentId in state
+    setShowUPIPayment(true);    // ✅ Show the UPIPayment component
+
+  } catch (err: any) {
+    toast({
+      title: "Payment Error",
+      description: err.message || "Unable to process payment",
+      variant: "destructive"
+    });
+  } finally {
+    setIsProcessing(false);
+  }
+};
 
   const handleUPISuccess = (paymentData: any) => {
     const { subtotal, tax, total } = calculateTotals();
@@ -406,6 +448,7 @@ const Checkout = () => {
       <div className="min-h-screen bg-neutral-light flex items-center justify-center p-4">
         <UPIPayment
           amount={total}
+          intentId={intentId}
           onSuccess={handleUPISuccess}
           onError={handleUPIError}
           onCancel={handleUPICancel}
