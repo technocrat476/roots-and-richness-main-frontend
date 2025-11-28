@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Truck, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,6 +16,7 @@ import { CouponValidationResult } from '@/services/coupons';
 import { Loader2 } from "lucide-react";
 import apiClient from '@/services/api';
 import confetti from 'canvas-confetti';
+import OrderProcessingOverlay from "@/components/ui/OrderProcessingOverlay";
 
 const Checkout = () => {
   const { state, dispatch } = useCart();
@@ -43,6 +44,7 @@ const Checkout = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showProcessing, setShowProcessing] = useState(false);
   const [paymentProvider, setPaymentProvider] = useState<PaymentProvider | 'upi' | 'cod'>('upi');
   const [showUPIPayment, setShowUPIPayment] = useState(false);
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
@@ -137,7 +139,40 @@ const Checkout = () => {
     return { subtotal, discountAmount, tax, codCharges, shippingFee, total };
   };
 
+  const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    if (window.Razorpay) return resolve(true);
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+
+    document.body.appendChild(script);
+  });
+};
+
   const handlePayment = async () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  // Before loading Razorpay or processing COD
+const stockCheckResp = await fetch(`${API_BASE_URL}/payments/check-stock`, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ orderItems: buildOrderItems() }),
+});
+
+const stockData = await stockCheckResp.json();
+
+if (!stockData.success) {
+  const outOfStockNames = stockData.items.map(i => i.name).join(', ');
+  toast({
+    title: "Stock Issue",
+    description: `The following items are out of stock: ${outOfStockNames}`,
+    variant: "destructive",
+  });
+  setIsProcessing(false);
+  return; // Stop payment
+}
     if (!validateForm()) return;
     window.scrollTo({ top: 0, behavior: 'smooth' });
     if (paymentProvider === 'upi') {
@@ -149,6 +184,7 @@ const Checkout = () => {
 
     try {
       const { subtotal, tax, total } = calculateTotals();
+      const couponCode = state.appliedCoupon?.code ?? null;
       const orderData = {
   orderItems: buildOrderItems(),
   subtotal,
@@ -191,7 +227,7 @@ const Checkout = () => {
             };
             //console.log(orderData);
            console.log("🛒 Final orderItems being sent:", orderItems);
-
+      setShowProcessing(true);
       try {
         const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/orders`, {
           method: 'POST',
@@ -225,7 +261,7 @@ const Checkout = () => {
 
         const data = await res.json();
         console.log("✅ Order saved:", data);
-
+        setShowProcessing(false);
         // ✅ Only now clear cart and navigate
         dispatch({ type: 'CLEAR_CART' });
         navigate('/order-confirmation', { state: { orderData } });
@@ -253,55 +289,167 @@ const Checkout = () => {
     }
   );
 }
- else if (paymentProvider === 'razorpay') {
-        const paymentData = {
-          amount: total * 100, // Razorpay expects amount in paise
-          currency: 'INR',
-          receipt: `receipt_${Date.now()}`,
-          notes: {
-            customerName: customerData.name,
-            customerEmail: formData.email,
-            itemCount: state.itemCount
+else if (paymentProvider === 'razorpay') {
+  const scriptLoaded = await loadRazorpayScript();
+  if (!scriptLoaded) {
+    toast({ title: "Failed", description: "Razorpay SDK failed to load", variant: "destructive" });
+    return;
+  }
+
+  const generatedOrderId = "RZP" + Date.now();
+
+  // Build fresh payloads
+  const orderItems = buildOrderItems();
+  if (!orderItems || orderItems.length === 0) {
+    toast({ title: "Cart Empty", description: "Please add items to cart", variant: "destructive" });
+    return;
+  }
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+  try {
+    // 1) Ask backend to create a Razorpay order — backend MUST compute totals (including coupon)
+    const createResp = await fetch(`${API_BASE_URL}/payments/razorpay/create-order`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderItems,
+        customerInfo: formData,
+        shippingAddress: formData,
+        couponCode: state.appliedCoupon?.coupon?.code || null,
+        discountAmount: state.discountAmount,
+        totalAmount: total * 100
+      })
+    });
+    console.log("📤 Creating Razorpay order with payload:", createResp);
+
+    const createData = await createResp.json();
+    console.log("📥 razorpay/create-order response:", createData);
+
+    const intentId = createData.intentId;
+    console.log("intent:", intentId);
+
+    if (!createData.success) {
+      toast({ title: "Payment Error", description: createData.message || "Failed to create payment", variant: "destructive" });
+      return;
+    }
+
+    // Use amount returned by backend (paise) — this is critical
+    const rAmount = createData.amount; // already in paise
+    const rOrderId = createData.orderId;
+    const rKey = createData.key;
+
+    // Optionally: createData.totals contains subtotal, discount, finalTotal etc if backend returns them
+
+    // 2) Open Razorpay checkout using server amount
+    const options = {
+      key: rKey,
+      amount: rAmount,
+      currency: createData.currency || "INR",
+      name: "Roots & Richness",
+      description: `Order checkout`,
+      order_id: rOrderId,
+      prefill: {
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        contact: formData.phone
+      },
+      theme: { color: "#5c2d91" },
+      handler: async function (response: any) {
+        console.log("🟩 Razorpay response:", response);
+        try {
+          // 3) Verify payment signature & details on backend
+const verifyResp = await fetch(`${API_BASE_URL}/payments/razorpay/verify`, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    razorpay_order_id: response.razorpay_order_id,
+    razorpay_payment_id: response.razorpay_payment_id,
+    razorpay_signature: response.razorpay_signature,
+    intentId
+  })
+});
+
+const verifyData = await verifyResp.json();
+
+if (!verifyData.success) {
+  toast({ title: "Payment Verification Failed", description: verifyData.message || "Signature mismatch", variant: "destructive" });
+  return;
+}
+
+// Now create the Order in backend with all correct fields
+const { subtotal, tax, shippingFee, total, discountAmount, codCharges } = calculateTotals();
+const shippingAddress = {
+  fullName: `${formData.firstName} ${formData.lastName}`.trim(),
+  phone: formData.phone,
+  email: formData.email,
+  address: formData.address,
+  city: formData.city,
+  state: formData.state,
+  postalCode: formData.pincode, // map pincode → postalCode
+};
+const orderPayload = {
+  orderId: "RZP" + Date.now(),
+  orderItems: buildOrderItems(),
+  subtotal,
+  shippingFee,
+  discountAmount,
+  tax,
+  total,
+  customerInfo: formData,
+  shippingAddress,
+  paymentMethod: "razorpay",
+  paymentProvider: "razorpay",
+  paymentId: response.razorpay_payment_id,
+  couponCode: state.appliedCoupon?.code ?? null
+};
+
+setShowProcessing(true);
+// send this payload to your /orders endpoint
+          console.log("📤 Creating backend order with payload:", orderPayload);
+
+          const orderRes = await fetch(`${API_BASE_URL}/orders`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(orderPayload)
+          });
+
+          const orderData = await orderRes.json();
+          console.log("📥 /orders response:", orderData);
+
+          if (!orderData.success) {
+            toast({ title: "Order Creation Failed", description: orderData.message || "Contact support", variant: "destructive" });
+            return;
           }
-        };
+          setShowProcessing(false);
+          // Success: clear cart and navigate
+          dispatch({ type: "CLEAR_CART" });
+          navigate("/order-confirmation", { state: { orderData: orderPayload } });
 
-        await processPayment(
-          'razorpay',
-          paymentData,
-          customerData,
-          (response) => {
-            const orderData = {
-              orderId: response.razorpay_order_id,
-              paymentId: response.razorpay_payment_id,
-              paymentProvider: 'razorpay',
-              items: state.items,
-              subtotal: subtotal,
-              tax: tax,
-              total: total,
-              customerInfo: formData,
-              appliedCoupon: state.appliedCoupon,
-              discountAmount: state.discountAmount,
-              paymentMethod: paymentProvider
-            };
+          toast({ title: "Payment Successful", description: "Your order is confirmed!", variant: "default" });
 
-            dispatch({ type: 'CLEAR_CART' });
-            navigate('/order-confirmation', { state: { orderData } });
+        } catch (err: any) {
+          console.error("❌ Razorpay handler error:", err);
+          toast({ title: "Payment Error", description: err.message || "Something went wrong", variant: "destructive" });
+        }
+      },
+      modal: {
+        ondismiss: () => {
+          toast({ title: "Payment Cancelled", description: "You closed the Razorpay window", variant: "destructive" });
+        }
+      }
+    };
 
-            toast({
-              title: "Payment Successful!",
-              description: "Your order has been placed successfully.",
-            });
-          },
-          (error) => {
-            console.error('Razorpay payment error:', error);
-            toast({
-              title: "Payment Failed",
-              description: "There was an issue processing your payment. Please try again.",
-              variant: "destructive",
-            });
-          }
-        );
-      } 
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+
+  } catch (err: any) {
+    console.error("❌ Razorpay flow error:", err);
+    toast({ title: "Payment Error", description: err.message || "Unable to process payment", variant: "destructive" });
+  } finally {
+    setIsProcessing(false);
+  }
+}
 else if (paymentProvider === 'phonepe') {
         const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
         const amountInPaise = Math.round(total * 100);
@@ -634,6 +782,7 @@ const handleUPIPayment = async () => {
     </div>
   </div>
 )}
+   <OrderProcessingOverlay visible={showProcessing} />
     </div>
   );
 };

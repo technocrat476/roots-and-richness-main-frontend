@@ -79,7 +79,9 @@ function calculateTotals(items: CartItem[], appliedCoupon: CouponValidationResul
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const itemCount = items.reduce((s, i) => s + i.quantity, 0);
   const shippingFee = subtotal > 499 ? 0 : 99;
-  const discountAmount = computeDiscount(subtotal, appliedCoupon);
+    const discountAmount = appliedCoupon?.discount && appliedCoupon.discount > 0
+    ? appliedCoupon.discount
+    : computeDiscount(subtotal, appliedCoupon);
   const codCharges = 0;
   const finalTotal = Math.max(0, subtotal + shippingFee - discountAmount);
   return {
