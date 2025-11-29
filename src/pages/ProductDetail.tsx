@@ -323,55 +323,60 @@ console.log("Related products =>", related);
   </Swiper>
       </div>
 
-          {/* Thumbnails */}
-          {product.images.length > 1 && (
-            <>
-              {/* Mobile - Swiper thumbnails */}
-              <div className="block lg:hidden">
-                <Swiper spaceBetween={-300} slidesPerView={4}>
-                  {product.images.map((image, index) => (
-                    <SwiperSlide key={index}>
-                      <img
-                        src={image.url}
-                        alt={
-                          image.alt || `${product.name} thumbnail ${index + 1}`
-                        }
-                        onClick={() => handleThumbnailClick(index)}
-                        className={`w-20 h-20 object-cover rounded-lg cursor-pointer ${
-                          selectedImage === index
-                            ? "border-2 border-black ring-2 ring-black"
-                            : "border border-gray-200"
-                        }`}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
+{/* Thumbnails */}
+{product.images.length > 1 && (
+  <>
+    {/* Mobile - Swiper thumbnails */}
+    <div className="block lg:hidden mt-4">
+      <Swiper
+        spaceBetween={12}
+        slidesPerView={4}
+        className="px-1"
+      >
+        {product.images.map((image, index) => (
+          <SwiperSlide key={index}>
+            <div
+              onClick={() => handleThumbnailClick(index)}
+              className={`w-20 h-20 rounded-xl overflow-hidden cursor-pointer transition-all duration-300 shadow-sm flex-shrink-0 ${
+                selectedImage === index
+                  ? "ring-2 ring-primary scale-105 shadow-md"
+                  : "ring-1 ring-gray-200 hover:ring-gray-300"
+              }`}
+            >
+              <img
+                src={image.url}
+                alt={image.alt || `${product.name} thumbnail ${index + 1}`}
+                className="w-full h-full object-contain"
+              />
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+    </div>
 
-              {/* Desktop - Grid thumbnails */}
-              <div className="hidden lg:grid grid-cols-4 gap-2">
-                {product.images.map((image, index) => (
-                  <div
-                    key={index}
-                    onClick={() => handleThumbnailClick(index)}
-                    className={`aspect-square rounded-lg overflow-hidden cursor-pointer ${
-                      selectedImage === index
-                        ? "border-2 border-black ring-2 ring-black"
-                        : "border border-gray-200"
-                    }`}
-                  >
-                    <img
-                      src={image.url}
-                      alt={
-                        image.alt || `${product.name} thumbnail ${index + 1}`
-                      }
-                      className="w-full h-full object-cover hover:opacity-80 transition"
-                    />
-                  </div>
-                ))}
-              </div>
-            </>
-          )}
+    {/* Desktop - Grid thumbnails */}
+    <div className="hidden lg:grid grid-cols-4 gap-3 mt-4">
+      {product.images.map((image, index) => (
+        <div
+          key={index}
+          onClick={() => handleThumbnailClick(index)}
+          className={`aspect-square rounded-xl overflow-hidden cursor-pointer transition-all duration-300 shadow-sm ${
+            selectedImage === index
+              ? "ring-2 ring-primary scale-105 shadow-md"
+              : "ring-1 ring-gray-200 hover:ring-gray-300"
+          }`}
+        >
+          <img
+            src={image.url}
+            alt={image.alt || `${product.name} thumbnail ${index + 1}`}
+            className="w-full h-full object-contain hover:opacity-90 transition"
+          />
+        </div>
+      ))}
+    </div>
+  </>
+)}
+
         </>
       )}
     </div>
