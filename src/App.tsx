@@ -35,6 +35,7 @@ const ReturnRefundPolicy = lazy(() => import("./pages/policies/ReturnRefundPolic
 const PrivacyPolicy = lazy(() => import("./pages/policies/PrivacyPolicy"));
 const TermsAndConditions = lazy(() => import("./pages/policies/TermsAndConditions"));
 const TrackMyOrder = lazy(() => import("./pages/TrackMyOrder"));
+const Shipping = lazy(() => import("./pages/ShippingPolicy"));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -101,6 +102,7 @@ const App = () => (
                             <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                             <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
                             <Route path="/track-my-order" element={<TrackMyOrder />} />
+                            <Route path="/shipping" element={<Shipping />} /> 
                             <Route path="*" element={<NotFound />} />
                           </Routes>
                         </ErrorBoundary>
